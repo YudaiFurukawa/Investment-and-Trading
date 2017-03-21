@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 from sklearn.cross_validation import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR #for regression
-from sklearn import grid_search
+from sklearn import grid_search, linear_model
+from sklearn.neighbors import KNeighborsRegressor
 
 #
 from sklearn import tree
@@ -27,10 +28,13 @@ from sklearn.metrics import r2_score
 
 ###import data 
 snp = quandl.get('YALE/SPCOMP') #SNP price, earnign, CPI, dividend
-# yield1 = Quandl.get('ML/AAAEY') #AAA rate bond yield
-#conf = Quandl.get('YALE/US_CONF_INDEX_VAL_INST') #institutional confidence level
-# house = Quandl.get('YALE/RHPI') #housing price
-# wage = Quandl.get('BEA/NIPA_2_7B_M') #wage
+# yield1 = quandl.get('ML/AAAEY') #AAA rate bond yield 1996-2017
+# conf = quandl.get('YALE/US_CONF_INDEX_VAL_INST') #institutional confidence level every 6 months 1989-
+# house = quandl.get('YALE/RHPI') #housing price annual 1890
+# wage = quandl.get('BEA/NIPA_2_7B_M') #wage monghly 2001
+
+# print(yield1, conf, house, wage)
+# print(snp)
 
 ###reset index
 snp = snp.reset_index(drop=True)
@@ -48,26 +52,27 @@ monthly_changes['y'] = monthly_changes['S&P Composite'].shift(-1) #snp['S&P Comp
 
 
 ###new col
-monthly_changes['PE Ratio'] = snp['Cyclically Adjusted PE Ratio']
-
+monthly_changes['PE Ratio (value)'] = snp['Cyclically Adjusted PE Ratio']
+monthly_changes['PER 6m change'] = (snp['Cyclically Adjusted PE Ratio']/snp['Cyclically Adjusted PE Ratio'].shift(6))-1
 
 ###drop "S&P Composite"
 delcol(monthly_changes,['CPI','Long Interest Rate'])
 
 monthly_changes = monthly_changes[12:].dropna().reset_index(drop = True) #deleting first 12 rows as PE change doesn't have value
 
+###rename columns
+
+
+#prrint
 print(monthly_changes)
 
+
 ###plot
-# monthly_changes.plot()
+monthly_changes.plot()
 # plt.show()
 ###todo 
 # make a new column with discrete target values
 
-
-#print keys
-# print("keys:", snp.keys())
-# print(snp)
 
 
 ###display data stat
@@ -84,7 +89,9 @@ print(pd.DataFrame(monthly_changes).corr())
 ###
 
 ###grid search, choose estimator
-estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
+# estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
+# estimator = grid_search.GridSearchCV(KNeighborsRegressor(), param_grid={"n_neighbors": [2,3,4,5,6,7,8,9,10]})
+estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
 
 ###r2 score
 def r2(key,data, regressor):
@@ -98,10 +105,11 @@ def r2(key,data, regressor):
 r2('y',monthly_changes,estimator)
 
 # print(estimator.best_params_, estimator.best_estimator_)
+print(estimator.alpha_)
 
 #samples to see the result of prediction
-print estimator.predict(monthly_changes.ix[1624,:].drop('y').values) #estimator.predict()
+print estimator.predict(monthly_changes.ix[1624,:].drop('y').values) 
 
 
 #plot
-# plt.show()
+plt.show()
