@@ -3,6 +3,7 @@ import quandl
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from IPython.display import display
 
 #regressor
 from sklearn.cross_validation import train_test_split
@@ -78,27 +79,35 @@ monthly_changes = monthly_changes[12:].dropna().reset_index(drop = True) #deleti
 #############################################
 
 #print
-print(monthly_changes)
+# print(monthly_changes)
 # print snp['S&P Composite']
+
+
+#outliera
+for feature in monthly_changes.keys():
+	Q1 = np.percentile(monthly_changes[feature],25)
+	Q3  =np.percentile(monthly_changes[feature],75)
+	step = 1.5*(Q3 - Q1)
+	print("Data points considered outliers for the feature '{}':".format(feature))
+	display(monthly_changes[~((monthly_changes[feature] >= Q1 - step) & (monthly_changes[feature] <= Q3 + step))])
+
+
 ###plot
 # monthly_changes.plot()
 
-#histogram
-###have to figure out how to plot vlines on each chart
-# Q1 = np.percentile(monthly_changes,25)
-# Q3  =np.percentile(monthly_changes,75)
-# step = 1.5*(Q3 - Q1)
+##histogram
+monthly_changes.hist(bins = 20)
+
 # plt.axvline(Q1, color = 'b', linestyle ='dashed', linewidth =2)
 # plt.axvline(Q3, color = 'b', linestyle ='dashed', linewidth =2)
 # plt.axvline(Q1-step, color = 'r', linestyle ='dashed', linewidth =2)
 # plt.axvline(Q3+step, color = 'r', linestyle ='dashed', linewidth =2)
-monthly_changes.hist(bins = 20)
+
 # monthly_changes.kurtosis()
 
-#box plot
-# monthly_changes.plot.box()
+##box plot
+monthly_changes.plot.box()
 
-#plt.show()
 ###todo 
 # make a new column with discrete target values
 
@@ -142,11 +151,11 @@ r2('y',monthly_changes,estimator)
 # print(r2_score(monthly_changes['y'][:1040].values,estimator.predict(monthly_changes[:1040].drop('y').values)))
 
 # print(estimator.best_params_, estimator.best_estimator_)
-print(estimator.alpha_)
+# print(estimator.alpha_)
 
 #samples to see the result of prediction
 # print estimator.predict(monthly_changes.ix[1624,:].drop('y').values) 
 
 
 #plot
-plt.show()
+# plt.show()

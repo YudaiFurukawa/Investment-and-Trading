@@ -33,8 +33,10 @@ In this section, you will want to clearly define the problem that you are trying
 - _Is an anticipated solution clearly defined? Will the reader understand what results you are looking for?_
 
 ### Metrics
-The coefficient of determination (r2 score), will be used for scoring the result of the prediction in this task. 
-r2 score will be sufficient for this project as the problem of this product is regression, and r2 score is a number that indicates the proportion of the variance in the dependent variable that is predictable from the independent variables.
+The coefficient of determination (the r2 score) will be used for scoring the result of the prediction in this task. 
+The r2 score provides a measure of how well the regression line represents the data. However, it has a weakness as the score could be greatly affected by unusual data points.
+Since the problem of this project is regression, the r2 score will be sufficient for this project as long as outliers are omitted.
+
 
 In this section, you will need to clearly define the metrics or calculations you will use to measure performance of a model or result in your project. These calculations and metrics should be justified based on the characteristics of the problem and problem domain. Questions to ask yourself when writing this section:
 - _Are the metrics you’ve chosen to measure the performance of your models clearly discussed and defined?_
