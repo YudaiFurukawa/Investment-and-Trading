@@ -8,9 +8,9 @@ _(approx. 1-2 pages)_
 
 ### Project Overview
 This project is about stock investing, and I am especially focusing on price prediction of a stock market index. A stock index is an aggregate value produced by combining several stocks, and it helps investors to measure and compare values of the stock markets such as in the US and Japan.
-The Dow Jones Industrial Average (DJIA), Nasdaq Composite index and the S&P 500 are examples of stock indices.
+The Dow Jones Industrial Average (DJIA), Nasdaq Composite index and the S&P Composite are examples of stock indices.
 As a wealth of information such as price, earnings, dividends, and CPI are available, we are going to use those information to do the prediction.  
-A dataset of S&P Composite published by Yale Department of Economics will be used in this project. For the further infomation about the dataset, please refer the URL below:
+A dataset of S&P Composite published by Yale Department of Economics will be used in this project. For more infomation, please refer the link below:
 https://www.quandl.com/data/YALE-Yale-Department-of-Economics
 
 In this section, look to provide a high-level overview of the project in layman’s terms. Questions to ask yourself when writing this section:
@@ -47,6 +47,51 @@ In this section, you will need to clearly define the metrics or calculations you
 _(approx. 2-4 pages)_
 
 ### Data Exploration
+A dataset of S&P Composite published by Yale Department of Economics will be used in this project. 
+The dataset (named snp in this project) is monthly time series of S&P Composite Price, Dividend, Earnigns, CPI, Long Interest Rate, Real S&P Composite Price, Real Dicidend, Real Earnings, and Cyclically Adjusted PE Ration since 1831-1-31 up to date.
+
+For more infomation for calculation methodology of each factor, please refer the link below:
+https://www.quandl.com/data/YALE-Yale-Department-of-Economics
+
+As of 2017-04-08, the basic statistics of snp the dataset is following.
+
+| Statistics | S&P Composite | Dividend  | Earnings          | CPI |       Long Interest Rate  | Real Price | Real Dividend | Real Earnings |        Cyclically Adjusted PE Ratio  |    
+| -------------------- | :---------------: |  :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: |  :---------------: |  ---------------: | 
+| count    | 1756.000000  | 1755.000000  | 1749.000000  | 1756.000000 |  1756.000000 | 1756.000000  |  1755.000000   | 1749.000000   |1636.000000  |
+|mean  |    242.537415   |  5.344903  |  12.046968  |  56.433670 |   4.584025  | 482.828989  |    14.590266  |    28.558423  | 16.748036  |
+|std |     478.579184 |    9.010165   | 22.474642   | 69.298402 |  2.290630   |505.897801    |   7.846696    |  22.451132  |  6.649515  |
+|min   |      2.730000    | 0.180000  |   0.160000  |   6.279613 |   1.500000  |  66.095494    |   4.870418    |   4.093124    | 4.784241 |
+| 25%   |      7.680000   |       NaN  |        NaN   | 10.100000 |          NaN   |  3.308333 |  165.900151    |        NaN     |      NaN   |
+|50%        |16.005000  |        NaN   |       NaN  |  18.100000  |     3.870000 |  246.207502    |        NaN     |       NaN     |   NaN  |
+| 75%     |  115.550000|          NaN    |     NaN|    84.200000 |     5.240000 |  588.255364 |           NaN     |       NaN |            NaN  |
+|max |     2357.000000 |   46.380000  | 105.960000  | 244.176000 |      15.320000 | 2357.000000  |    46.416308  |   108.695460    |  44.197940 |
+
+As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclicall Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.
+
+As discussed, the dataset needs to be modified in order to predict % change of S&P Composite price with a return horizon of 1 year (named snp_changes). Therefore, I conducted following modification on the dataset. 
+
+1. As the project is focusing on predicting % change of nominal S&P Composite price, factors with real values are removed.
+2. In order to see the relationship of changes of 1 yeare S&P Composite price and other factors, a dataset called snp_changes is created which shows 1 year change of each factor.
+3. Added a target factor "y" which is 12 months forward return of S&P Composite.
+4. Added following factors that seem to be have influence on the prediction.
+    * The real value of PE Ratio as the ratio is considered as a good indicator predict return. 
+
+As of 2017-04-08, the basic statistics of the snp_changes dataset is following.
+
+| statistics|    S&P Composite (%change)|   Dividend  (%change)|   Earnings (%change) | Cyclically Adjusted PE Ratio (%change) | y (%change) | PE Ratio (value) |
+| -------------------- | :---------------: |  :---------------: | :---------------: | :---------------: | :---------------:| ---------------: | 
+|count  |  1629.000000 | 1629.000000 | 1629.000000  | 1629.000000 | 1629.000000   |    1629.000000  |    
+|mean     |   0.062039   |  0.044323  |   0.093620               |       0.021502  | 0.061958     |    16.734102      |
+|std     |    0.187358    |0.106872  |   0.537744   |                   0.192371 |0.187298    |      6.655788   |
+|min     |   -0.656092 |   -0.390244    |-0.886405|                     -0.630535 | -0.656092     |     4.784241   |
+|25%   |     -0.060241   |  0.000000  |  -0.076412               |      -0.098145 | -0.060241    |     11.754449|  
+|50%     |    0.068465    | 0.047917 |    0.053571 |                     0.020997|   0.068465 |        16.061148  |
+|75%    |     0.186898 |    0.097610  |   0.173666 |                     0.137546   | 0.185828    |     20.384150|
+|max     |    1.241517   |  0.531915  |   7.934754 |                     1.355688 |  1.241517     |    44.197940 |
+
+
+
+
 In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
 - _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
 - _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
