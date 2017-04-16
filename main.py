@@ -45,14 +45,34 @@ snp = quandl.get('YALE/SPCOMP') #SNP price, earnign, CPI, dividend
 # display(snp.describe())
 
 #////////////////////////////////////////////
+#############################################
+###analysis 0: data exploration  
+#############################################
+snp.plot()
+# snp.plot.box()
+scatter_matrix(snp, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
+plt.show()
+
+snp_timeSeries = snp.drop(["Real Price","S&P Composite"], axis = 1)
+snp_timeSeries.plot()
+plt.show()
+
+#////////////////////////////////////////////
+
+
 
 #############################################
 ###modify datasets
 #############################################
 ###reset index
+
 snp = snp.reset_index(drop=True)
 
+
 ###drop columns not necessary
+
+
+
 def delcol(data,columns):
 	for key in columns:
 		del data[key]
@@ -98,7 +118,9 @@ for feature in snp_changes.keys():
 
 
 ###plot
-# snp_changes.plot()
+snp_changes_timeSeries = snp_changes.drop(["PE Ratio (value)"], axis = 1)
+snp_changes_timeSeries.plot()
+# snp_changes["PE Ratio (value)"].plot()
 
 ##histogram
 # snp_changes.hist(bins = 20)
@@ -111,7 +133,9 @@ for feature in snp_changes.keys():
 # snp_changes.kurtosis()
 
 ##box plot
-# snp_changes.plot.box()
+snp_changes_box = snp_changes.drop(["PE Ratio (value)"], axis = 1)
+snp_changes_box.plot.box()
+# snp_changes["PE Ratio (value)"].plot.box()
 
 ###todo 
 # make a new column with discrete target values
@@ -120,10 +144,10 @@ for feature in snp_changes.keys():
 
 ###display data stat
 # display(snp.describe())
-display(snp_changes.describe())
+# display(snp_changes.describe())
 
 #scatter matrix
-# scatter_matrix(snp_changes, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
+scatter_matrix(snp_changes, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
 
 ###correlation  matrix
 print(pd.DataFrame(snp_changes).corr())

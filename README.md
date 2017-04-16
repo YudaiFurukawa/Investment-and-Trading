@@ -68,6 +68,44 @@ As of 2017-04-08, the basic statistics of snp the dataset is following.
 
 As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclicall Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.
 
+
+
+
+
+In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
+- _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
+- _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
+- _If a dataset is **not** present for this problem, has discussion been made about the input space or input data for your problem?_
+- _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_
+
+### Exploratory Visualization
+shape1 (box plot)
+
+
+In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
+- _Have you visualized a relevant characteristic or feature about the dataset or input data?_
+- _Is the visualization thoroughly analyzed and discussed?_
+- _If a plot is provided, are the axes, title, and datum clearly defined?_
+
+### Algorithms and Techniques
+
+
+
+In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
+- _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
+- _Are the techniques to be used thoroughly discussed and justified?_
+- _Is it made clear how the input data or datasets will be handled by the algorithms 	and techniques chosen?_
+
+### Benchmark
+In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
+- _Has some result or value been provided that acts as a benchmark for measuring performance?_
+- _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_
+
+
+## III. Methodology
+_(approx. 3-5 pages)_
+
+### Data Preprocessing
 As discussed, the dataset needs to be modified in order to predict % change of S&P Composite price with a return horizon of 1 year (named snp_changes). Therefore, I conducted following modification on the dataset. 
 
 1. As the project is focusing on predicting % change of nominal S&P Composite price, factors with real values are removed.
@@ -92,34 +130,6 @@ As of 2017-04-08, the basic statistics of the snp_changes dataset is following.
 
 
 
-In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:
-- _If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?_
-- _If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?_
-- _If a dataset is **not** present for this problem, has discussion been made about the input space or input data for your problem?_
-- _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_
-
-### Exploratory Visualization
-In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
-- _Have you visualized a relevant characteristic or feature about the dataset or input data?_
-- _Is the visualization thoroughly analyzed and discussed?_
-- _If a plot is provided, are the axes, title, and datum clearly defined?_
-
-### Algorithms and Techniques
-In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
-- _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
-- _Are the techniques to be used thoroughly discussed and justified?_
-- _Is it made clear how the input data or datasets will be handled by the algorithms 	and techniques chosen?_
-
-### Benchmark
-In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
-- _Has some result or value been provided that acts as a benchmark for measuring performance?_
-- _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_
-
-
-## III. Methodology
-_(approx. 3-5 pages)_
-
-### Data Preprocessing
 In this section, all of your preprocessing steps will need to be clearly documented, if any were necessary. From the previous section, any of the abnormalities or characteristics that you identified about the dataset will be addressed and corrected here. Questions to ask yourself when writing this section:
 - _If the algorithms chosen require preprocessing steps like feature selection or feature transformations, have they been properly documented?_
 - _Based on the **Data Exploration** section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?_
