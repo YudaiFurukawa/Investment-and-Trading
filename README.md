@@ -79,7 +79,12 @@ In this section, you will be expected to analyze the data you are using for the 
 - _Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)_
 
 ### Exploratory Visualization
-shape1 (box plot)
+snp_figure1 (timeSeries)
+snp_figure2 (timeSeries)
+
+Figure 1 is a time series plot of the raw dataset. Figure 2 is also time series plot without "Real Price" and "S&P Composite" in order to visualize other features clearly. Time series plot was chosen as the data itself is a time series. For the both figures, the horizontal axis displays years and the vertical axis displays figures for each feature where the unit is different for each feature.
+
+In figure 1, you can clearly see both "Real Price" and "S&P Composite" have been increasing in general as time goes. Therefore, it would be better nomarizing data when doing analysis. Also, in figure 2, you can see the same trends besides for "Cyclically adjusted PE Ration" and "Long Interest Rate". Therefore, for the same reasons, it would be better nomarizing data when doing analysis besides those two features.
 
 
 In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:
@@ -88,8 +93,17 @@ In this section, you will need to provide some form of visualization that summar
 - _If a plot is provided, are the axes, title, and datum clearly defined?_
 
 ### Algorithms and Techniques
+As discussed, the original dataset needs to be nomalized in order to predict % change of S&P Composite price with a return horizon of 1 year (named snp_changes). I first removed real values as this project aims to predict change of nominal S&P Composite price and CPI in the dataset allows us to calculate the real value when needed. After this, instead of using raw dataset, I'm going to use 12 months changes for each feature plus the original figures of "Cyclically adjusted PE Ration" and "Long Interest Rate". The target feature will be 12 month forward changes in S&P Composite price.
+After nomalizing, some features.
 
+In this project, following regressors will be used in predicting the 12 month forward price change in S&P Composite.
+1. Linear Regressor
+2. KNeibors
+3. SVR
 
+I chose the linear regressor as 
+I chose KNeibors as 
+I chose SVR as 
 
 In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
@@ -106,10 +120,10 @@ In this section, you will need to provide a clearly defined benchmark result or 
 _(approx. 3-5 pages)_
 
 ### Data Preprocessing
-As discussed, the dataset needs to be modified in order to predict % change of S&P Composite price with a return horizon of 1 year (named snp_changes). Therefore, I conducted following modification on the dataset. 
+As discussed, the dataset needs to be nomalized in order to predict % change of S&P Composite price with a return horizon of 1 year (named snp_changes). Therefore, I conducted following modification on the dataset. 
 
-1. As the project is focusing on predicting % change of nominal S&P Composite price, factors with real values are removed.
-2. In order to see the relationship of changes of 1 yeare S&P Composite price and other factors, a dataset called snp_changes is created which shows 1 year change of each factor.
+1. Removed factors with real values as the project is focusing on predicting % change of nominal S&P Composite price.
+2. Created a dataset called snp_changes which shows 1 year change of each factor in order to see the relationship of changes of 1 yeare S&P Composite price and other factors.
 3. Added a target factor "y" which is 12 months forward return of S&P Composite.
 4. Added following factors that seem to be have influence on the prediction.
     * The real value of PE Ratio as the ratio is considered as a good indicator predict return. 

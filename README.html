@@ -1170,10 +1170,42 @@ The dataset (named snp in this project) is monthly time series of S&amp;P Compos
 </tbody>
 </table>
 <p>As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclicall Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.</p>
-<p>As discussed, the dataset needs to be modified in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). Therefore, I conducted following modification on the dataset. </p>
+<p>In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:<br />
+- <em>If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?</em><br />
+- <em>If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?</em><br />
+- <em>If a dataset is <strong>not</strong> present for this problem, has discussion been made about the input space or input data for your problem?</em><br />
+- <em>Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)</em></p>
+<h3 id="exploratory-visualization"><a name="user-content-exploratory-visualization" href="#exploratory-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Exploratory Visualization</h3>
+<p>snp_figure1 (timeSeries)<br />
+snp_figure2 (timeSeries)</p>
+<p>Figure 1 is a time series plot of the raw dataset. Figure 2 is also time series plot without &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; in order to visualize other features clearly. Time series plot was chosen as the data itself is a time series. For the both figures, the horizontal axis displays years and the vertical axis displays figures for each feature where the unit is different for each feature.</p>
+<p>In figure 1, you can clearly see both &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; have been increasing in general as time goes. Therefore, it would be better nomarizing data when doing analysis. Also, in figure 2, you can see the same trends besides for &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo;. Therefore, for the same reasons, it would be better nomarizing data when doing analysis besides those two features.</p>
+<p>In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:<br />
+- <em>Have you visualized a relevant characteristic or feature about the dataset or input data?</em><br />
+- <em>Is the visualization thoroughly analyzed and discussed?</em><br />
+- <em>If a plot is provided, are the axes, title, and datum clearly defined?</em></p>
+<h3 id="algorithms-and-techniques"><a name="user-content-algorithms-and-techniques" href="#algorithms-and-techniques" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Algorithms and Techniques</h3>
+<p>As discussed, the dataset needs to be nomalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). Threfore, instead of using raw dataset, I&rsquo;m going to use 12 months changes for each feature plus the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo;.<br />
+After nomalizing the original dataset, I&rsquo;m going to remove some features which are showing low correlation again the target result.<br />
+Then going to use following regressors on predicting the 12 month forward price change %. <br />
+1. Linear Regressor<br />
+2. KNeibors<br />
+3. SVR</p>
+<p>In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:<br />
+- <em>Are the algorithms you will use, including any default variables/parameters in the project clearly defined?</em><br />
+- <em>Are the techniques to be used thoroughly discussed and justified?</em><br />
+- <em>Is it made clear how the input data or datasets will be handled by the algorithms    and techniques chosen?</em></p>
+<h3 id="benchmark"><a name="user-content-benchmark" href="#benchmark" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Benchmark</h3>
+<p>In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:<br />
+- <em>Has some result or value been provided that acts as a benchmark for measuring performance?</em><br />
+- <em>Is it clear how this result or value was obtained (whether by data or by hypothesis)?</em></p>
+<h2 id="iii-methodology"><a name="user-content-iii-methodology" href="#iii-methodology" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>III. Methodology</h2>
+<p><em>(approx. 3-5 pages)</em></p>
+<h3 id="data-preprocessing"><a name="user-content-data-preprocessing" href="#data-preprocessing" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data Preprocessing</h3>
+<p>As discussed, the dataset needs to be nomalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). Therefore, I conducted following modification on the dataset. </p>
 <ol>
-<li>As the project is focusing on predicting % change of nominal S&amp;P Composite price, factors with real values are removed.</li>
-<li>In order to see the relationship of changes of 1 yeare S&amp;P Composite price and other factors, a dataset called snp_changes is created which shows 1 year change of each factor.</li>
+<li>Removed factors with real values as the project is focusing on predicting % change of nominal S&amp;P Composite price.</li>
+<li>Created a dataset called snp_changes which shows 1 year change of each factor in order to see the relationship of changes of 1 yeare S&amp;P Composite price and other factors.</li>
 <li>Added a target factor &ldquo;y&rdquo; which is 12 months forward return of S&amp;P Composite.</li>
 <li>Added following factors that seem to be have influence on the prediction.<ul>
 <li>The real value of PE Ratio as the ratio is considered as a good indicator predict return. </li>
@@ -1268,29 +1300,6 @@ The dataset (named snp in this project) is monthly time series of S&amp;P Compos
 </tr>
 </tbody>
 </table>
-<p>In this section, you will be expected to analyze the data you are using for the problem. This data can either be in the form of a dataset (or datasets), input data (or input files), or even an environment. The type of data should be thoroughly described and, if possible, have basic statistics and information presented (such as discussion of input features or defining characteristics about the input or environment). Any abnormalities or interesting qualities about the data that may need to be addressed have been identified (such as features that need to be transformed or the possibility of outliers). Questions to ask yourself when writing this section:<br />
-- <em>If a dataset is present for this problem, have you thoroughly discussed certain features about the dataset? Has a data sample been provided to the reader?</em><br />
-- <em>If a dataset is present for this problem, are statistics about the dataset calculated and reported? Have any relevant results from this calculation been discussed?</em><br />
-- <em>If a dataset is <strong>not</strong> present for this problem, has discussion been made about the input space or input data for your problem?</em><br />
-- <em>Are there any abnormalities or characteristics about the input space or dataset that need to be addressed? (categorical variables, missing values, outliers, etc.)</em></p>
-<h3 id="exploratory-visualization"><a name="user-content-exploratory-visualization" href="#exploratory-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Exploratory Visualization</h3>
-<p>shape1 (box plot)</p>
-<p>In this section, you will need to provide some form of visualization that summarizes or extracts a relevant characteristic or feature about the data. The visualization should adequately support the data being used. Discuss why this visualization was chosen and how it is relevant. Questions to ask yourself when writing this section:<br />
-- <em>Have you visualized a relevant characteristic or feature about the dataset or input data?</em><br />
-- <em>Is the visualization thoroughly analyzed and discussed?</em><br />
-- <em>If a plot is provided, are the axes, title, and datum clearly defined?</em></p>
-<h3 id="algorithms-and-techniques"><a name="user-content-algorithms-and-techniques" href="#algorithms-and-techniques" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Algorithms and Techniques</h3>
-<p>In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:<br />
-- <em>Are the algorithms you will use, including any default variables/parameters in the project clearly defined?</em><br />
-- <em>Are the techniques to be used thoroughly discussed and justified?</em><br />
-- <em>Is it made clear how the input data or datasets will be handled by the algorithms    and techniques chosen?</em></p>
-<h3 id="benchmark"><a name="user-content-benchmark" href="#benchmark" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Benchmark</h3>
-<p>In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:<br />
-- <em>Has some result or value been provided that acts as a benchmark for measuring performance?</em><br />
-- <em>Is it clear how this result or value was obtained (whether by data or by hypothesis)?</em></p>
-<h2 id="iii-methodology"><a name="user-content-iii-methodology" href="#iii-methodology" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>III. Methodology</h2>
-<p><em>(approx. 3-5 pages)</em></p>
-<h3 id="data-preprocessing"><a name="user-content-data-preprocessing" href="#data-preprocessing" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data Preprocessing</h3>
 <p>In this section, all of your preprocessing steps will need to be clearly documented, if any were necessary. From the previous section, any of the abnormalities or characteristics that you identified about the dataset will be addressed and corrected here. Questions to ask yourself when writing this section:<br />
 - <em>If the algorithms chosen require preprocessing steps like feature selection or feature transformations, have they been properly documented?</em><br />
 - <em>Based on the <strong>Data Exploration</strong> section, if there were abnormalities or characteristics that needed to be addressed, have they been properly corrected?</em><br />

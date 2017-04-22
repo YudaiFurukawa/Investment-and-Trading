@@ -17,7 +17,7 @@ from sklearn.neighbors import KNeighborsRegressor
 #
 from sklearn import tree
 from sklearn.metrics import r2_score
-
+from scipy import stats
 
 
 # Quandl.api_config.api_key = "shPZyYs9kg4jQYxYZPbL"
@@ -48,14 +48,14 @@ snp = quandl.get('YALE/SPCOMP') #SNP price, earnign, CPI, dividend
 #############################################
 ###analysis 0: data exploration  
 #############################################
-snp.plot()
+# snp.plot()
 # snp.plot.box()
-scatter_matrix(snp, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
-plt.show()
+# scatter_matrix(snp, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
+# plt.show()
 
-snp_timeSeries = snp.drop(["Real Price","S&P Composite"], axis = 1)
-snp_timeSeries.plot()
-plt.show()
+# snp_timeSeries = snp.drop(["Real Price","S&P Composite"], axis = 1)
+# snp_timeSeries.plot()
+# plt.show()
 
 #////////////////////////////////////////////
 
@@ -90,10 +90,16 @@ snp_changes['price 24m change']=(snp['S&P Composite']/snp['S&P Composite'].shift
 snp_changes['price 36m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(36))-1
 snp_changes['price 48m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(48))-1
 snp_changes['price 60m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(60))-1
+
 ###drop "S&P Composite"
 delcol(snp_changes,['CPI','Long Interest Rate'])
 
 snp_changes = snp_changes[12:].dropna().reset_index(drop = True) #deleting first 12 rows as PE change doesn't have value
+
+###p-value
+x = snp_changes["S&P Composite"]
+y = snp_changes["y"]
+print stats.pearsonr(x, y)
 
 ###rename columns
 
@@ -122,6 +128,8 @@ snp_changes_timeSeries = snp_changes.drop(["PE Ratio (value)"], axis = 1)
 snp_changes_timeSeries.plot()
 # snp_changes["PE Ratio (value)"].plot()
 
+
+
 ##histogram
 # snp_changes.hist(bins = 20)
 
@@ -143,8 +151,8 @@ snp_changes_box.plot.box()
 
 
 ###display data stat
-# display(snp.describe())
-# display(snp_changes.describe())
+display(snp.describe())
+display(snp_changes.describe())
 
 #scatter matrix
 scatter_matrix(snp_changes, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
@@ -169,7 +177,7 @@ estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
 def r2(key,data, regressor):
 	new_data = data.drop(key, axis = 1)
 	target = data[key]
-	X_train, X_test, y_train, y_test = train_test_split(new_data, target, test_size=0.25, random_state=7)
+	X_train, X_test, y_train, y_test = train_test_split(new_data, target, test_size=0.1, random_state=7)
 	regressor.fit(X_train.values,y_train.values)
 	y_pred = regressor.predict(X_test.values)
 	score = r2_score(y_test, y_pred)
@@ -185,4 +193,4 @@ r2('y',snp_changes,estimator)
 
 
 #plot
-# plt.show()
+plt.show()
