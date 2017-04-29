@@ -101,9 +101,9 @@ In this project, following regressors will be used in predicting the 12 month fo
 2. KNeibors
 3. SVR
 
-I chose the linear regressor as 
-I chose KNeibors as 
-I chose SVR as 
+I chose the linear regressor as it is the most commonly used regressor especially in the financial industry. However, the weakness of the linear regressor such as sensitivity to outliers and assumption of data independency should be carefully treated.
+I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other factors that might affect the price are missing.
+I chose SVR as it can do both linear and non-linear regressions and it is less likely to overfit.
 
 In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:
 - _Are the algorithms you will use, including any default variables/parameters in the project clearly defined?_
@@ -111,6 +111,8 @@ In this section, you will need to discuss the algorithms and techniques you inte
 - _Is it made clear how the input data or datasets will be handled by the algorithms 	and techniques chosen?_
 
 ### Benchmark
+I will going to use R^2 (coefficient of determination) regression score.
+ 
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
 - _Has some result or value been provided that acts as a benchmark for measuring performance?_
 - _Is it clear how this result or value was obtained (whether by data or by hypothesis)?_

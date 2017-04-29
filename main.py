@@ -114,7 +114,7 @@ print stats.pearsonr(x, y)
 # print snp['S&P Composite']
 
 
-#outliera
+#outliers
 for feature in snp_changes.keys():
 	Q1 = np.percentile(snp_changes[feature],25)
 	Q3  =np.percentile(snp_changes[feature],75)

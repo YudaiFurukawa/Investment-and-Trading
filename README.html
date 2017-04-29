@@ -1185,12 +1185,15 @@ snp_figure2 (timeSeries)</p>
 - <em>Is the visualization thoroughly analyzed and discussed?</em><br />
 - <em>If a plot is provided, are the axes, title, and datum clearly defined?</em></p>
 <h3 id="algorithms-and-techniques"><a name="user-content-algorithms-and-techniques" href="#algorithms-and-techniques" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Algorithms and Techniques</h3>
-<p>As discussed, the dataset needs to be nomalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). Threfore, instead of using raw dataset, I&rsquo;m going to use 12 months changes for each feature plus the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo;.<br />
-After nomalizing the original dataset, I&rsquo;m going to remove some features which are showing low correlation again the target result.<br />
-Then going to use following regressors on predicting the 12 month forward price change %. <br />
+<p>As discussed, the original dataset needs to be nomalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). I first removed real values as this project aims to predict change of nominal S&amp;P Composite price and CPI in the dataset allows us to calculate the real value when needed. After this, instead of using raw dataset, I&rsquo;m going to use 12 months changes for each feature plus the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo;. The target feature will be 12 month forward changes in S&amp;P Composite price.<br />
+After nomalizing, some features.</p>
+<p>In this project, following regressors will be used in predicting the 12 month forward price change in S&amp;P Composite.<br />
 1. Linear Regressor<br />
 2. KNeibors<br />
 3. SVR</p>
+<p>I chose the linear regressor as it is the most commonly used regressor especially in the financial industry. However, the weakness of the linear regressor such as sensitivity to outliers and assumption of data independency should be carefully treated.</p>
+<p>I chose KNeibors as it is robust to noisy training data and it does a good job in general.</p>
+<p>I chose SVR as </p>
 <p>In this section, you will need to discuss the algorithms and techniques you intend to use for solving the problem. You should justify the use of each one based on the characteristics of the problem and the problem domain. Questions to ask yourself when writing this section:<br />
 - <em>Are the algorithms you will use, including any default variables/parameters in the project clearly defined?</em><br />
 - <em>Are the techniques to be used thoroughly discussed and justified?</em><br />
