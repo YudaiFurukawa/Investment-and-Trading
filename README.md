@@ -111,7 +111,7 @@ In this section, you will need to discuss the algorithms and techniques you inte
 - _Is it made clear how the input data or datasets will be handled by the algorithms 	and techniques chosen?_
 
 ### Benchmark
-I will going to use R^2 (coefficient of determination) regression score.
+I will going to use R^2 (coefficient of determination) regression score to measure the performance of the prediction as this score shows the goodness of fit of a model.
  
 In this section, you will need to provide a clearly defined benchmark result or threshold for comparing across performances obtained by your solution. The reasoning behind the benchmark (in the case where it is not an established result) should be discussed. Questions to ask yourself when writing this section:
 - _Has some result or value been provided that acts as a benchmark for measuring performance?_
@@ -152,12 +152,24 @@ In this section, all of your preprocessing steps will need to be clearly documen
 - _If no preprocessing is needed, has it been made clear why?_
 
 ### Implementation
+Outliers 
+
+1. Linear Regressor
+2. KNeibors
+3. SVR
+
+
+
+
 In this section, the process for which metrics, algorithms, and techniques that you implemented for the given data will need to be clearly documented. It should be abundantly clear how the implementation was carried out, and discussion should be made regarding any complications that occurred during this process. Questions to ask yourself when writing this section:
 - _Is it made clear how the algorithms and techniques were implemented with the given datasets or input data?_
 - _Were there any complications with the original metrics or techniques that required changing prior to acquiring a solution?_
 - _Was there any part of the coding process (e.g., writing complicated functions) that should be documented?_
 
 ### Refinement
+Grid search
+
+
 In this section, you will need to discuss the process of improvement you made upon the algorithms and techniques you used in your implementation. For example, adjusting parameters for certain models to acquire improved solutions would fall under the refinement category. Your initial and final solutions should be reported, as well as any significant intermediate results as necessary. Questions to ask yourself when writing this section:
 - _Has an initial solution been found and clearly reported?_
 - _Is the process of improvement clearly documented, such as what techniques were used?_

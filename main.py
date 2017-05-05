@@ -5,6 +5,7 @@ from pandas.tools.plotting import scatter_matrix
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython.display import display
+from collections import Counter
 
 
 #regressor
@@ -64,10 +65,6 @@ snp = quandl.get('YALE/SPCOMP') #SNP price, earnign, CPI, dividend
 #############################################
 ###modify datasets
 #############################################
-###reset index
-
-snp = snp.reset_index(drop=True)
-
 
 ###drop columns not necessary
 
@@ -87,19 +84,15 @@ snp_changes['y'] = snp_changes['S&P Composite'].shift(-1) #snp['S&P Composite'].
 snp_changes['PE Ratio (value)'] = snp['Cyclically Adjusted PE Ratio']
 snp_changes['PER 6m change'] = (snp['Cyclically Adjusted PE Ratio']/snp['Cyclically Adjusted PE Ratio'].shift(6))-1
 snp_changes['price 24m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(24))-1
-snp_changes['price 36m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(36))-1
-snp_changes['price 48m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(48))-1
-snp_changes['price 60m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(60))-1
+###didn't improve the score
+# snp_changes['price 36m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(36))-1
+# snp_changes['price 48m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(48))-1
+# snp_changes['price 60m change']=(snp['S&P Composite']/snp['S&P Composite'].shift(60))-1
 
 ###drop "S&P Composite"
 delcol(snp_changes,['CPI','Long Interest Rate'])
 
 snp_changes = snp_changes[12:].dropna().reset_index(drop = True) #deleting first 12 rows as PE change doesn't have value
-
-###p-value
-x = snp_changes["S&P Composite"]
-y = snp_changes["y"]
-print stats.pearsonr(x, y)
 
 ###rename columns
 
@@ -111,17 +104,28 @@ print stats.pearsonr(x, y)
 
 #print
 # print(snp_changes)
-# print snp['S&P Composite']
+# print(snp_changes.keys())
 
 
 #outliers
+outliersList = []
 for feature in snp_changes.keys():
 	Q1 = np.percentile(snp_changes[feature],25)
 	Q3  =np.percentile(snp_changes[feature],75)
 	step = 1.5*(Q3 - Q1)
-	print("Data points considered outliers for the feature '{}':".format(feature))
-	display(snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))])
+	###print outliers for each feature
+	# print("Data points considered outliers for the feature '{}':".format(feature))
+	# display(snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))])
+	# print snp_changes[feature][~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))]
+	###todo 
+	# outliers_df = pd.DataFrame(index = snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))],columns = snp_changes.keys())
+	outliers = snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))].index.tolist()
+	outliersList += outliers
+print('these are outliers',Counter(outliersList))
 
+###print outliers
+indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624]
+print(snp_changes.ix[indices])
 
 ###plot
 snp_changes_timeSeries = snp_changes.drop(["PE Ratio (value)"], axis = 1)
@@ -144,14 +148,10 @@ snp_changes_timeSeries.plot()
 snp_changes_box = snp_changes.drop(["PE Ratio (value)"], axis = 1)
 snp_changes_box.plot.box()
 # snp_changes["PE Ratio (value)"].plot.box()
-
-###todo 
-# make a new column with discrete target values
-
-
+	
 
 ###display data stat
-display(snp.describe())
+# display(snp.describe())
 display(snp_changes.describe())
 
 #scatter matrix
@@ -162,9 +162,9 @@ print(pd.DataFrame(snp_changes).corr())
 ###
 
 ###grid search, choose estimator
-# estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
+estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
 # estimator = grid_search.GridSearchCV(KNeighborsRegressor(), param_grid={"n_neighbors": [2,3,4,5,6,7,8,9,10]})
-estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
+# estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
 
 #////////////////////////////////////////////
 
@@ -193,4 +193,4 @@ r2('y',snp_changes,estimator)
 
 
 #plot
-plt.show()
+# plt.show()
