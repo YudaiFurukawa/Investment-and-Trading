@@ -49,9 +49,9 @@ As of 2017-04-08, the basic statistics of snp the dataset is following.
 As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclicall Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.
 
 ### Exploratory Visualization
-snp_figure1 (timeSeries)
+Figure 1: Time Series for all factors
 ![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/snp_figure1.png?raw=true)
-snp_figure2 (timeSeries)
+Figure 2: Time Series for Factors Except "Real Price" and "S&P Composite"
 ![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/snp_figure2.png?raw=true)
 
 Figure 1 is a time series plot of the raw dataset. Figure 2 is also time series plot omitting "Real Price" and "S&P Composite" in order to visualize other features clearly. Time series plot was chosen as the data itself is a time series. For the both figures, the horizontal axis displays years and the vertical axis displays figures for each feature where the unit is different for each feature.
@@ -65,7 +65,7 @@ In this project, following regressions will be used in predicting the 12 month f
 2. KNeibors
 3. SVR
 
-I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independency should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to overfit. [todo]
+I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independency should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to overfit. 
 
 ### Benchmark
 r2 score of 0.5 will be used as a benchmark. 0.5 is a reasonable benchmark as equity return is often said unpredictable
@@ -118,7 +118,8 @@ r2 score of 0.91 with the selected linear regression is definitely higher than b
 ## V. Conclusion
 
 ### Free-Form Visualization
-![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform01.png?raw=true)
+Figure 3: % change in each factor (24 month % change for 'price 24m change'. 12 months % change for other factors)
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform1.png?raw=true)
 
 This graph is a box plot of the dataset. As you can see mean values of all the features are abobe 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&P Composite. 
 
@@ -130,23 +131,10 @@ In this section, you will need to provide some form of visualization that emphas
 ### Reflection
 I started with definition the goal, searching datasets I can use, analyzing the characteristics of the dataset, and processing the data in order to have it ready for regression. After having the data ready, I decided how to measure the result, chose regressions that would be useful with taking strength and weakness for each regression in mind, and figured out which regression will best serve the purpose.
 
-I found it interesting that I could define the problem as any of supurvised, unsupervised, and reinforcement learning although the data being used is the same. 
-I found it difficult to find data that I need for the project as most of datasets are not free.
+I found it interesting that I could define the problem as any of supurvised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.
 
 The final result fit my expectations for the problem as the linear regression is the most commonly used regression in the financial industry, and I think 
 
 ### Improvement
 I think I could have more factors such as fandamental data (book value, working capital etc.) and economic data (GDP, NFP, etc.) in the dataset in order to make a better stock price predictor. With more factors in the dataset, I expect to have a better regression with higher r2 score.
 
-
------------
-
-**Before submitting, ask yourself. . .**
-
-- Does the project report you’ve written follow a well-organized structure similar to that of the project template?
-- Is each section (particularly **Analysis** and **Methodology**) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?
-- Would the intended audience of your project be able to understand your analysis, methods, and results?
-- Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?
-- Are all the resources used for this project correctly cited and referenced?
-- Is the code that implements your solution easily readable and properly commented?
-- Does the code execute without error and produce results similar to those reported?

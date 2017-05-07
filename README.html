@@ -1157,9 +1157,9 @@ The dataset (named snp in this project) is monthly time series of S&amp;P Compos
 </table>
 <p>As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclicall Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.</p>
 <h3 id="exploratory-visualization"><a name="user-content-exploratory-visualization" href="#exploratory-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Exploratory Visualization</h3>
-<p>snp_figure1 (timeSeries)<br />
+<p>Figure 1: Time Series for all factors<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/snp_figure1.png?raw=true" /><br />
-snp_figure2 (timeSeries)<br />
+Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo;<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/snp_figure2.png?raw=true" /></p>
 <p>Figure 1 is a time series plot of the raw dataset. Figure 2 is also time series plot omitting &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; in order to visualize other features clearly. Time series plot was chosen as the data itself is a time series. For the both figures, the horizontal axis displays years and the vertical axis displays figures for each feature where the unit is different for each feature.</p>
 <p>In figure 1, you can clearly see both &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; have been increasing in general as time goes. Therefore, it would be better nomarizing data when doing analysis. Also, in figure 2, you can see the same trends besides for &ldquo;Cyclically adjusted PE Ratio&rdquo; and &ldquo;Long Interest Rate&rdquo;. Therefore, for the same reasons, it would be better nomarizing data when doing analysis besides those two features.</p>
@@ -1170,7 +1170,7 @@ snp_figure2 (timeSeries)<br />
 <li>KNeibors</li>
 <li>SVR</li>
 </ol>
-<p>I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independency should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to overfit. [todo]</p>
+<p>I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independency should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to overfit. </p>
 <h3 id="benchmark"><a name="user-content-benchmark" href="#benchmark" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Benchmark</h3>
 <p>r2 score of 0.5 will be used as a benchmark. 0.5 is a reasonable benchmark as equity return is often said unpredictable</p>
 <h2 id="iii-methodology"><a name="user-content-iii-methodology" href="#iii-methodology" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>III. Methodology</h2>
@@ -1234,7 +1234,8 @@ snp_figure2 (timeSeries)<br />
 <p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. The result is reasonable as linear regresison is historically working well in economics.This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
 <h2 id="v-conclusion"><a name="user-content-v-conclusion" href="#v-conclusion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>V. Conclusion</h2>
 <h3 id="free-form-visualization"><a name="user-content-free-form-visualization" href="#free-form-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Free-Form Visualization</h3>
-<p><img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform01.png?raw=true" /></p>
+<p>Figure 3: % change in each factor (24 month % change for &lsquo;price 24m change&rsquo;. 12 months % change for other factors)<br />
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform1.png?raw=true" /></p>
 <p>This graph is a box plot of the dataset. As you can see mean values of all the features are abobe 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&amp;P Composite. </p>
 <p>In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:<br />
 - <em>Have you visualized a relevant or important quality about the problem, dataset, input data, or results?</em><br />
@@ -1242,19 +1243,7 @@ snp_figure2 (timeSeries)<br />
 - <em>If a plot is provided, are the axes, title, and datum clearly defined?</em></p>
 <h3 id="reflection"><a name="user-content-reflection" href="#reflection" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Reflection</h3>
 <p>I started with definition the goal, searching datasets I can use, analyzing the characteristics of the dataset, and processing the data in order to have it ready for regression. After having the data ready, I decided how to measure the result, chose regressions that would be useful with taking strength and weakness for each regression in mind, and figured out which regression will best serve the purpose.</p>
-<p>I found it interesting that I could define the problem as any of supurvised, unsupervised, and reinforcement learning although the data being used is the same. <br />
-I found it difficult to find data that I need for the project as most of datasets are not free.</p>
+<p>I found it interesting that I could define the problem as any of supurvised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.</p>
 <p>The final result fit my expectations for the problem as the linear regression is the most commonly used regression in the financial industry, and I think </p>
 <h3 id="improvement"><a name="user-content-improvement" href="#improvement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Improvement</h3>
-<p>I think I could have more factors such as fandamental data (book value, working capital etc.) and economic data (GDP, NFP, etc.) in the dataset in order to make a better stock price predictor. With more factors in the dataset, I expect to have a better regression with higher r2 score.</p>
-<hr />
-<p><strong>Before submitting, ask yourself. . .</strong></p>
-<ul>
-<li>Does the project report you’ve written follow a well-organized structure similar to that of the project template?</li>
-<li>Is each section (particularly <strong>Analysis</strong> and <strong>Methodology</strong>) written in a clear, concise and specific fashion? Are there any ambiguous terms or phrases that need clarification?</li>
-<li>Would the intended audience of your project be able to understand your analysis, methods, and results?</li>
-<li>Have you properly proof-read your project report to assure there are minimal grammatical and spelling mistakes?</li>
-<li>Are all the resources used for this project correctly cited and referenced?</li>
-<li>Is the code that implements your solution easily readable and properly commented?</li>
-<li>Does the code execute without error and produce results similar to those reported?</li>
-</ul></article></body></html>
+<p>I think I could have more factors such as fandamental data (book value, working capital etc.) and economic data (GDP, NFP, etc.) in the dataset in order to make a better stock price predictor. With more factors in the dataset, I expect to have a better regression with higher r2 score.</p></article></body></html>
