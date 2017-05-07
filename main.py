@@ -91,8 +91,9 @@ snp_changes['price 24m change']=(snp['S&P Composite']/snp['S&P Composite'].shift
 
 ###drop "S&P Composite"
 delcol(snp_changes,['CPI','Long Interest Rate'])
-
+snp_changes_testing = snp_changes[12:] #for testing in the end
 snp_changes = snp_changes[12:].dropna().reset_index(drop = True) #deleting first 12 rows as PE change doesn't have value
+
 
 ###rename columns
 
@@ -116,20 +117,25 @@ for feature in snp_changes.keys():
 	###print outliers for each feature
 	# print("Data points considered outliers for the feature '{}':".format(feature))
 	# display(snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))])
-	# print snp_changes[feature][~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))]
-	###todo 
-	# outliers_df = pd.DataFrame(index = snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))],columns = snp_changes.keys())
 	outliers = snp_changes[~((snp_changes[feature] >= Q1 - step) & (snp_changes[feature] <= Q3 + step))].index.tolist()
+	# print(outliers)
 	outliersList += outliers
-print('these are outliers',Counter(outliersList))
+# print('these are outliers',Counter(outliersList))
 
 ###print outliers
-indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624]
-print(snp_changes.ix[indices])
+outliers_indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624,1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550]
+outliers_earning = [497, 498, 499, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550, 1551]
+# print('outliers for the earning feature',snp_changes.ix[outliers_earning])
+print('earnings>2',snp_changes[snp_changes['Earnings']>2].index.tolist())
+# print(snp_changes.ix[outliers_indices])
+
+###drop outliers
+good_data = snp_changes.drop(snp_changes.index[outliers_indices])
+# print(good_data)
 
 ###plot
-snp_changes_timeSeries = snp_changes.drop(["PE Ratio (value)"], axis = 1)
-snp_changes_timeSeries.plot()
+good_data_timeSeries = good_data.drop(["PE Ratio (value)"], axis = 1)
+good_data_timeSeries.plot()
 # snp_changes["PE Ratio (value)"].plot()
 
 
@@ -145,26 +151,33 @@ snp_changes_timeSeries.plot()
 # snp_changes.kurtosis()
 
 ##box plot
-snp_changes_box = snp_changes.drop(["PE Ratio (value)"], axis = 1)
+snp_changes_box = good_data.drop(["PE Ratio (value)"], axis = 1)
 snp_changes_box.plot.box()
 # snp_changes["PE Ratio (value)"].plot.box()
 	
 
 ###display data stat
 # display(snp.describe())
-display(snp_changes.describe())
+display(good_data.describe())
 
 #scatter matrix
-scatter_matrix(snp_changes, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
+scatter_matrix(good_data, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
 
 ###correlation  matrix
-print(pd.DataFrame(snp_changes).corr())
+print(pd.DataFrame(good_data).corr())
 ###
 
 ###grid search, choose estimator
-estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
+##before refinement
+# estimator = SVR()
+# estimator = KNeighborsRegressor()
+# estimator = LinearRegression()
+#after refinement
+# estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
 # estimator = grid_search.GridSearchCV(KNeighborsRegressor(), param_grid={"n_neighbors": [2,3,4,5,6,7,8,9,10]})
 # estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
+estimator = grid_search.GridSearchCV(LinearRegression(), param_grid =  {'fit_intercept':[True,False], 'normalize':[True,False], 'copy_X':[True, False]})
+
 
 #////////////////////////////////////////////
 
@@ -177,20 +190,24 @@ estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_g
 def r2(key,data, regressor):
 	new_data = data.drop(key, axis = 1)
 	target = data[key]
-	X_train, X_test, y_train, y_test = train_test_split(new_data, target, test_size=0.1, random_state=7)
+	X_train, X_test, y_train, y_test = train_test_split(new_data, target, test_size=0.2, random_state=7)
 	regressor.fit(X_train.values,y_train.values)
 	y_pred = regressor.predict(X_test.values)
 	score = r2_score(y_test, y_pred)
 	print("r2 score", score)
-r2('y',snp_changes,estimator)
-# print(r2_score(snp_changes['y'][:1040].values,estimator.predict(snp_changes[:1040].drop('y').values)))
+r2('y',good_data,estimator)
 
-# print(estimator.best_params_, estimator.best_estimator_)
+print(estimator.best_params_, estimator.best_estimator_)
 # print(estimator.alpha_)
+print(estimator.best_estimator_.coef_, estimator.best_estimator_.residues_, estimator.best_estimator_.intercept_)
 
-#samples to see the result of prediction
-# print estimator.predict(snp_changes.ix[1624,:].drop('y').values) 
-
-
+###samples to see the result of prediction
+# print(good_data.ix[1624,'y'],estimator.predict(good_data.ix[1624,:].drop('y').values))
+# print(good_data.ix[14,'y'],estimator.predict(good_data.ix[14,:].drop('y').values))
+# print(good_data.ix[164,'y'],estimator.predict(good_data.ix[164,:].drop('y').values))
+# print(good_data.ix[333,'y'],estimator.predict(good_data.ix[333,:].drop('y').values))
+# print(good_data.ix[1000,'y'],estimator.predict(good_data.ix[1000,:].drop('y').values))
+print(estimator.predict(good_data.ix[333,:].drop('y').values))
+# print(estimator.predict(snp_changes_testing.ix['2016-09-30',:].drop('y').values))
 #plot
-# plt.show()
+plt.show()
