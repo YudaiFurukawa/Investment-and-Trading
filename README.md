@@ -118,7 +118,7 @@ r2 score of 0.91 with the selected linear regression is definitely higher than b
 ## V. Conclusion
 
 ### Free-Form Visualization
-Box plot -> a lot of outliers 
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform1.png?raw=true)
 
 This graph is a box plot of the dataset. As you can see mean values of all the features are abobe 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&P Composite. 
 
