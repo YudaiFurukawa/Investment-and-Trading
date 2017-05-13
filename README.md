@@ -1,7 +1,7 @@
 # Machine Learning Engineer Nano degree
 ## Capstone Project
 Yudai Furukawa  
-May 7th, 2017
+May 14th, 2017
 
 ## I. Definition
 
@@ -91,16 +91,19 @@ The following modifications were made on the dataset.
 
 1. Removed features with real values as the project is focusing on predicting % change of nominal S&P Composite price.
     * Features ['Real Price','Real Earnings','Real Dividend'] were removed
-2. Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 year S&P Composite price and other features.
-Before
-meth1 meth2 
+2. Generated a dataset called snp_changes which shows 1 yea3 change of each feature in order to see the relationship of changes of 1 year S&P Composite price and other features 
 
-After 
-meth3 meth4
+Before Change
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth1.png?raw=true)
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth2.png?raw=true)
+
+After Change
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth3.png?raw=true)
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth4.png?raw=true)
 
 3. Added a target feature "y" which is 12 months forward return of S&P Composite.
-meth
-meth5
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth5.png?raw=true)
+
 
 4. Added following features that seem to be have an effect on the prediction.
     * The real value of PE Ratio as the ratio is considered as a good indicator on predicting return in general. As investpedia says, "The P/E ratio is a much better indicator of the value of a stock than the market price alone, since it allows investors to make a better apples to apples comparison".
@@ -115,10 +118,9 @@ TimeSeries Split Validator was used to test the models. This validator provides 
 At the beginning I used algorithms with default settings to determine which algorithm best serves the purpose of this project. After determining the algorithm, I used grid search in order to optimize the algorithms in this project. I used the default number of splits which is 3.
 
 Step 1: Choose Algorithm 
-refine1
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/refine1.PNG?raw=true)
 Step 2: Grid Search 
-refine2
-
+![alt text](https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/refine2.PNG?raw=true )
 ## IV. Results
 
 ### Model Evaluation and Validation
@@ -165,8 +167,7 @@ Split 3
 
 ### Justification
 r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. 
-
-The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions.
+The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions. This also shows the model seems not to be overfitting it has similar score over back-testing (Split 1, 2, and 3)
 Also the result could be justified as linear regressions are historically working well in economics and finance field. This result is significant as the project shows existing factors can be good predictors of the future S&P Composite return although it is often said that the it is nearly impossible to predict the future return of S&P Composite. 
 
 
@@ -180,7 +181,14 @@ This graph is a box plot of the dataset. As you can see mean values of all the f
 
 
 ### Reflection
-I started with definition the goal, searching datasets I can use, analyzing the characteristics of the dataset, and processing the data in order to have it ready for regression. After having the data ready, I decided how to measure the result, chose regressions that would be useful with taking strength and weakness for each regression in mind, and figured out which regression will best serve the purpose.
+
+I started this project with searching for datasets available in order to understand what kinds of datasets I can use. I checked morning star, Google finance, and yahoo finance as well as quandl, and decided to use quandl database as it seemed to have more various datasets compared to other sources.
+
+After searching data, I defined the goal for this project as the problem could be either classification and regression. I was thinking of using classification as well (for example I could divide the returns into some categories such more than 10% increase, less than 10% change etc.) but decided to use regression.
+
+I analyzed the characteristics of the dataset in order to understand how I can use the dataset to achieve the goal and decided to normalize the data in order to make it usable for regressions. Decided to use parametric returns for normalizing the dataset.
+
+After having the dataset ready, I chose what regressions and scoring metrics I will use for the project, then compared each regressions according to the scores. I had to be careful about the score as the model could be over-fitting and the score could be biased. Finally I tried to refine the regression having the best score, and concluded the model which best serves the purpose.
 
 I found it interesting that I could define the problem as any of supervised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.
 

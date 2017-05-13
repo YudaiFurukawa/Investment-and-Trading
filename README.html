@@ -1017,7 +1017,7 @@ body .markdown-body
 </style><title>README</title></head><body><article class="markdown-body"><h1 id="machine-learning-engineer-nano-degree"><a name="user-content-machine-learning-engineer-nano-degree" href="#machine-learning-engineer-nano-degree" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Machine Learning Engineer Nano degree</h1>
 <h2 id="capstone-project"><a name="user-content-capstone-project" href="#capstone-project" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Capstone Project</h2>
 <p>Yudai Furukawa<br />
-May 7th, 2017</p>
+May 14th, 2017</p>
 <h2 id="i-definition"><a name="user-content-i-definition" href="#i-definition" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>I. Definition</h2>
 <h3 id="project-overview"><a name="user-content-project-overview" href="#project-overview" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Project Overview</h3>
 <p>This project is about stock investing, and I am focusing on price prediction of a stock market index. A stock index is an aggregate value produced by combining several stocks, and it helps investors to measure and compare values of the stock markets such as in the US and Japan.<br />
@@ -1205,17 +1205,18 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <li>Features [&lsquo;Real Price&rsquo;,&rsquo;Real Earnings&rsquo;,&rsquo;Real Dividend&rsquo;] were removed</li>
 </ul>
 </li>
-<li>Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features.<br />
-Before<br />
-meth1 meth2 </li>
+<li>Generated a dataset called snp_changes which shows 1 yea3 change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features </li>
 </ol>
-<p>After <br />
-meth3 meth4</p>
+<p>Before Change<br />
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth1.png?raw=true" /><br />
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth2.png?raw=true" /></p>
+<p>After Change<br />
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth3.png?raw=true" /><br />
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth4.png?raw=true" /></p>
 <ol>
 <li>
 <p>Added a target feature &ldquo;y&rdquo; which is 12 months forward return of S&amp;P Composite.<br />
-meth<br />
-meth5</p>
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth5.png?raw=true" /></p>
 </li>
 <li>
 <p>Added following features that seem to be have an effect on the prediction.</p>
@@ -1235,9 +1236,9 @@ meth5</p>
 <h3 id="refinement"><a name="user-content-refinement" href="#refinement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Refinement</h3>
 <p>At the beginning I used algorithms with default settings to determine which algorithm best serves the purpose of this project. After determining the algorithm, I used grid search in order to optimize the algorithms in this project. I used the default number of splits which is 3.</p>
 <p>Step 1: Choose Algorithm <br />
-refine1<br />
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/refine1.PNG?raw=true" /><br />
 Step 2: Grid Search <br />
-refine2</p>
+<img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/refine2.PNG?raw=true" /></p>
 <h2 id="iv-results"><a name="user-content-iv-results" href="#iv-results" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>IV. Results</h2>
 <h3 id="model-evaluation-and-validation"><a name="user-content-model-evaluation-and-validation" href="#model-evaluation-and-validation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Model Evaluation and Validation</h3>
 <p>Followings are the result of each scores with split </p>
@@ -1272,8 +1273,8 @@ Split 2<br />
 <p>Split 3<br />
 (&lsquo;r2 score:&rsquo;, 0.90054123332737157, &lsquo;explained variance score:&rsquo;, 0.90377986316285341, &lsquo;mean_squared_error&rsquo;, 0.0027188916770536373, &lsquo;mean_absolute_error&rsquo;, 0.038394690588562007, &lsquo;median_absolute_error&rsquo;, 0.026809489549802112)</p>
 <h3 id="justification"><a name="user-content-justification" href="#justification" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Justification</h3>
-<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. </p>
-<p>The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions.<br />
+<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. <br />
+The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions. This also shows the model seems not to be overfitting it has similar score over back-testing (Split 1, 2, and 3)<br />
 Also the result could be justified as linear regressions are historically working well in economics and finance field. This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
 <h2 id="v-conclusion"><a name="user-content-v-conclusion" href="#v-conclusion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>V. Conclusion</h2>
 <h3 id="free-form-visualization"><a name="user-content-free-form-visualization" href="#free-form-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Free-Form Visualization</h3>
@@ -1281,7 +1282,10 @@ Also the result could be justified as linear regressions are historically workin
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform1.png?raw=true" /></p>
 <p>This graph is a box plot of the dataset. As you can see mean values of all the features are above 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&amp;P Composite. </p>
 <h3 id="reflection"><a name="user-content-reflection" href="#reflection" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Reflection</h3>
-<p>I started with definition the goal, searching datasets I can use, analyzing the characteristics of the dataset, and processing the data in order to have it ready for regression. After having the data ready, I decided how to measure the result, chose regressions that would be useful with taking strength and weakness for each regression in mind, and figured out which regression will best serve the purpose.</p>
+<p>I started this project with searching for datasets available in order to understand what kinds of datasets I can use. I checked morning star, Google finance, and yahoo finance as well as quandl, and decided to use quandl database as it seemed to have more various datasets compared to other sources.</p>
+<p>After searching data, I defined the goal for this project as the problem could be either classification and regression. I was thinking of using classification as well (for example I could divide the returns into some categories such more than 10% increase, less than 10% change etc.) but decided to use regression.</p>
+<p>I analyzed the characteristics of the dataset in order to understand how I can use the dataset to achieve the goal and decided to normalize the data in order to make it usable for regressions. Decided to use parametric returns for normalizing the dataset.</p>
+<p>After having the dataset ready, I chose what regressions and scoring metrics I will use for the project, then compared each regressions according to the scores. I had to be careful about the score as the model could be over-fitting and the score could be biased. Finally I tried to refine the regression having the best score, and concluded the model which best serves the purpose.</p>
 <p>I found it interesting that I could define the problem as any of supervised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.</p>
 <p>The final result fit my expectations for the problem as the linear regression is the most commonly used regression in the financial industry, and I think </p>
 <h3 id="improvement"><a name="user-content-improvement" href="#improvement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Improvement</h3>

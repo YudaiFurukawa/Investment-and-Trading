@@ -125,7 +125,7 @@ for feature in snp_changes.keys():
 # print('these are outliers',Counter(outliersList))
 
 ###print outliers
-outliers_indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624,1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550,1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531, 1532]
+outliers_indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624,1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550]
 outliers_earning = [497, 498, 499, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550, 1551]
 # print('outliers for the earning feature',snp_changes.ix[outliers_earning])
 print('earnings>2',snp_changes[snp_changes['Earnings']>2].index.tolist())
