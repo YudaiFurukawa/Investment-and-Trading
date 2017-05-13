@@ -16,13 +16,16 @@ https://www.quandl.com/data/YALE-Yale-Department-of-Economics
 For this project, the task is to build a stock index price predictor. A 12 month forward price change of S&P composite will be predicted by using regression. The project is going to be a supervised learning.
 
 Following steps will be taken to make the predictor.
-1. Figuring out necessary inputs to predict a 12 month forward price change by using correlation between each feature and 12 month forward price changes.
-    * For example, earning growth and PER will be major inputs as those are considered leading indicators to predict a stock price.
-2. Figuring out the best regression by trying a multiple regressions. 
-    * Coefficient of determination will be used to measure performances of regressions. 
 
-### Metrics
-The coefficient of determination (the r2 score) will be used for scoring the result of the prediction. The r2 score provides a measure of how well the regression line represents the data. However, it has a weakness as the score could be greatly affected by unusual data points. Since the problem of this project is regression, the r2 score will be sufficient for this project as long as outliers are omitted.
+1. Deciding inputs that are necessary to predict a 12 month forward price change by using correlation between each feature and 12 month forward price changes. The inputs are decided on the ground of common sense in the financial industry and statistical figures such as correlation. 
+    
+2. Deciding the best regression model according to the metrics defined in the next section.
+
+In the step 1, I am expecting PE Ratio and earning growth are going to be among the dominant inputs as it is commonly used in the financial industry to justify investment. In the step 2, I am expecting that r2 score will best serve the purpose although there are other metrics such as mean absolute error , mean squared error, and explained variance score as well as median absolute error. This will be discussed in the next section.
+
+
+### metrics
+r2 score, explained variance score, and mean squared error, as well as explained variance score and median absolute error are all going to be used to validate the result. By using all the metrics, I can overcome the risk of being biased. Expected result is the best regression model have the highest score in all the scoring metrics.
 
 ## II. Analysis
 
@@ -34,6 +37,7 @@ For more information, please refer the link below:
 https://www.quandl.com/data/YALE-Yale-Department-of-Economics
 
 As of 2017-04-08, the basic statistics of snp the dataset is following.
+Table 1
 
 | Statistics | S&P Composite | Dividend  | Earnings          | CPI |       Long Interest Rate  | Real Price | Real Dividend | Real Earnings |        Cyclically Adjusted PE Ratio  |    
 | -------------------- | :---------------: |  :---------------: | :---------------: | :---------------: | :---------------: | :---------------: | :---------------: |  :---------------: |  ---------------: | 
@@ -46,7 +50,10 @@ As of 2017-04-08, the basic statistics of snp the dataset is following.
 | 75%     |  115.550000|          NaN    |     NaN|    84.200000 |     5.240000 |  588.255364 |           NaN     |       NaN |            NaN  |
 |max |     2357.000000 |   46.380000  | 105.960000  | 244.176000 |      15.320000 | 2357.000000  |    46.416308  |   108.695460    |  44.197940 |
 
-As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclically Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.
+What can be concluded from table 1 is that there are huge deviation in most of the factors. Remarkably, the maximum price of S&P Composite is 863.3699634 times larger than its minimum price although the maximum earning is 662.25 times larger than its minimum and the maximum of dividend only 257.66 times.
+This fact shows the S&P Composite historically advanced faster than earnings and dividend.
+
+Also, as you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclically Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.
 
 ### Exploratory Visualization
 Figure 1: Time Series for all factors
@@ -56,7 +63,7 @@ Figure 2: Time Series for Factors Except "Real Price" and "S&P Composite"
 
 Figure 1 is a time series plot of the raw dataset. Figure 2 is also time series plot omitting "Real Price" and "S&P Composite" in order to visualize other features clearly. Time series plot was chosen as the data itself is a time series. For the both figures, the horizontal axis displays years and the vertical axis displays figures for each feature where the unit is different for each feature.
 
-In figure 1, you can clearly see both "Real Price" and "S&P Composite" have been increasing in general as time goes. Therefore, it would be better normalizing data when doing analysis. Also, in figure 2, you can see the same trends besides for "Cyclically adjusted PE Ratio" and "Long Interest Rate". Therefore, for the same reasons, it would be better normalizing data when doing analysis besides those two features.
+In figure 1, you can clearly see both "Real Price" and "S&P Composite" have been increasing in general as time goes. Also, in figure 2, you can see the same trends besides for "Cyclically adjusted PE Ratio" and "Long Interest Rate". As the figures are increasing overtime, it is hard to compare the figures as it is. For example, the meaning of S&P Composite being 1000 right now and 20 years ago could have completely different meanings. In order to avoid this kind of misinterpretation, normalizing the data is necessary.
 
 ### Algorithms and Techniques
 In this project, following regressions will be used in predicting the 12 month forward price change in S&P Composite.
@@ -64,6 +71,7 @@ In this project, following regressions will be used in predicting the 12 month f
 1. Linear Regression
 2. KNeibors
 3. SVR
+
 
 I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independence should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to over fit. 
 
@@ -94,6 +102,24 @@ At the beginning I used algorithms with default settings to determine which algo
 ## IV. Results
 
 ### Model Evaluation and Validation
+Memo 05132017
+SVR
+('r2 score:', 0.46203561013012351, 'explained variance score:', 0.49076547652335589, 'mean_squared_error', 0.027909821203550064, 'mean_absolute_error', 0.13322021924068453, 'median_absolute_error', 0.11494323190727181)
+('r2 score:', 0.83734051188973591, 'explained variance score:', 0.8507121009308416, 'mean_squared_error', 0.0036388683253097179, 'mean_absolute_error', 0.048233671571316319, 'median_absolute_error', 0.042793838457600555)
+('r2 score:', 0.56601185038138779, 'explained variance score:', 0.57365252325183336, 'mean_squared_error', 0.011315896786256328, 'mean_absolute_error', 0.072512443085194361, 'median_absolute_error', 0.047410680757838497)
+
+KNeighbor
+('r2 score:', 0.11366052722544762, 'explained variance score:', 0.27650168616411541, 'mean_squared_error', 0.045983668578453943, 'mean_absolute_error', 0.16797549806049597, 'median_absolute_error', 0.14124764701469139)
+('r2 score:', 0.6262866037854673, 'explained variance score:', 0.63084140197008631, 'mean_squared_error', 0.0083603720633077076, 'mean_absolute_error', 0.071785369871896237, 'median_absolute_error', 0.062301103917071922)
+('r2 score:', -0.082982563354474292, 'explained variance score:', 0.10866035141914021, 'mean_squared_error', 0.028237911378465357, 'mean_absolute_error', 0.12316307176270737, 'median_absolute_error', 0.089980760066028259)
+
+Linear
+('r2 score:', 0.88629761910370441, 'explained variance score:', 0.88728464199424062, 'mean_squared_error', 0.0058989278491112474, 'mean_absolute_error', 0.051686380139549411, 'median_absolute_error', 0.037683001046082007)
+('r2 score:', 0.89932003229322677, 'explained variance score:', 0.90247836633119305, 'mean_squared_error', 0.0022523195525675855, 'mean_absolute_error', 0.036520785100067572, 'median_absolute_error', 0.028205368886686434)
+('r2 score:', 0.9020251503591914, 'explained variance score:', 0.90603497761453722, 'mean_squared_error', 0.0025546164962307679, 'mean_absolute_error', 0.037571621770448774, 'median_absolute_error', 0.02698937431809878)
+
+
+
 r2 score of each algorithm with default settings are shown below.
 
 1. Linear regression: 0.91077659608990325

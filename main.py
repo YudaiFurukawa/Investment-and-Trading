@@ -18,7 +18,7 @@ from sklearn.neighbors import KNeighborsRegressor
 
 #
 from sklearn import tree
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, explained_variance_score, mean_absolute_error, mean_squared_error,median_absolute_error
 from scipy import stats
 
 
@@ -50,14 +50,14 @@ snp = quandl.get('YALE/SPCOMP') #SNP price, earnign, CPI, dividend
 #############################################
 ###analysis 0: data exploration  
 #############################################
-# snp.plot()
+snp.plot()
 # snp.plot.box()
 # scatter_matrix(snp, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
 # plt.show()
 
-# snp_timeSeries = snp.drop(["Real Price","S&P Composite"], axis = 1)
-# snp_timeSeries.plot()
-# plt.show()
+snp_timeSeries = snp.drop(["Real Price","S&P Composite"], axis = 1)
+snp_timeSeries.plot()
+plt.show()
 
 #////////////////////////////////////////////
 
@@ -138,8 +138,9 @@ good_data = snp_changes.drop(snp_changes.index[outliers_indices]).reset_index(dr
 ###plot
 good_data_timeSeries = good_data.drop(["PE Ratio (value)"], axis = 1)
 good_data_timeSeries.plot()
-# snp_changes["PE Ratio (value)"].plot()
-
+# good_data_timeSeries2 = good_data.drop(["PE Ratio (value)","Real Price",'S&P Composite'], axis = 1)
+# good_data_timeSeries2.plot()
+# plt.show()
 
 
 ##histogram
@@ -171,24 +172,24 @@ print(pd.DataFrame(good_data).corr())
 
 ###grid search, choose estimator
 ##before refinement
-# estimator = SVR()
+estimator = SVR()
 # estimator = KNeighborsRegressor()
 # estimator = LinearRegression()
 #after refinement
 # estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
 # estimator = grid_search.GridSearchCV(KNeighborsRegressor(), param_grid={"n_neighbors": [2,3,4,5,6,7,8,9,10]})
 # estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
-estimator = grid_search.GridSearchCV(LinearRegression(), param_grid =  {'fit_intercept':[True,False], 'normalize':[True,False], 'copy_X':[True, False]})
+# estimator = grid_search.GridSearchCV(LinearRegression(), param_grid =  {'fit_intercept':[True,False], 'normalize':[True,False], 'copy_X':[True, False]})
 
 
 #////////////////////////////////////////////
 
 
 #############################################
-###analysis 2: statistics 
+###analysis 2: Metrics 
 #############################################
 
-###r2 score
+###r2 score -> not going to use this 
 def r2(key,data, regressor):
 	new_data = data.drop(key, axis = 1)
 	target = data[key]
@@ -199,6 +200,7 @@ def r2(key,data, regressor):
 	print("r2 score", score)
 # r2('y',good_data,estimator)
 
+#split
 def split(X, n_splits, groups=None):
     # X, y, groups = indexable(X, y, groups)
     n_samples = len(X)
@@ -219,7 +221,7 @@ new_data = good_data.drop('y', axis = 1)
 target = good_data['y']
 # print(good_data.ix[[605]])
 
-
+#scoring by metrics 
 for train_index, test_index in split(new_data, n_splits = 3):
 	# print("TRAIN:", train_index, "TEST:", test_index)
 	new_data_train, new_data_test = new_data.ix[train_index], new_data.ix[test_index]
@@ -232,8 +234,7 @@ for train_index, test_index in split(new_data, n_splits = 3):
 	estimator.fit(new_data_train,target_train)
 	# print(new_data_test)
 	target_pred = estimator.predict(new_data_test.values)
-	score = r2_score(target_test, target_pred)
-	print("r2 score:",score)
+	print("r2 score:",r2_score(target_test, target_pred),'explained variance score:',explained_variance_score(target_test, target_pred),'mean_squared_error',mean_squared_error(target_test, target_pred), 'mean_absolute_error',mean_absolute_error(target_test, target_pred),'median_absolute_error',median_absolute_error(target_test, target_pred))
 
 # print(estimator.best_params_, estimator.best_estimator_)
 # print(estimator.alpha_)
@@ -248,7 +249,7 @@ for train_index, test_index in split(new_data, n_splits = 3):
 # print(estimator.predict(good_data.ix[333,:].drop('y').values))
 # print(estimator.predict(snp_changes_testing.ix['2016-09-30',:].drop('y').values))
 #plot
-# plt.show()
+plt.show()
 
 
 ### Time Series split
