@@ -1174,11 +1174,26 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <h3 id="algorithms-and-techniques"><a name="user-content-algorithms-and-techniques" href="#algorithms-and-techniques" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Algorithms and Techniques</h3>
 <p>In this project, following regressions will be used in predicting the 12 month forward price change in S&amp;P Composite.</p>
 <ol>
-<li>Linear Regression</li>
-<li>KNeibors</li>
-<li>SVR</li>
+<li>
+<p>Linear Regression</p>
+<ul>
+<li>Linear regression is an approach for modeling the linear relationship between a scalar dependent variable y and one or more explanatory variables (or independent variables) denoted X. </li>
+<li>I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independence should be carefully treated.</li>
+</ul>
+</li>
+<li>
+<p>K Nearest Neighbors</p>
+<ul>
+<li>In K Nearest Neighbors, the output is the property value for the object. This value is the average of the values of its k nearest neighbors.</li>
+<li>I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. </li>
+</ul>
+</li>
+<li>SVR<ul>
+<li>Support Vector Regression is very specific class of algorithms, characterized by usage of kernels, absence of local minima, sparseness of the solution and capacity control obtained by acting on the margin, or on number of support vectors, etc. It can be used to avoid difficulties of using linear functions in the high dimensional feature space and optimization problem is transformed into dual convex quadratic programmes.</li>
+<li>I chose SVR as it can do both linear and non-linear regressions and it is less likely to over fit. </li>
+</ul>
+</li>
 </ol>
-<p>I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independence should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to over fit. </p>
 <h3 id="benchmark"><a name="user-content-benchmark" href="#benchmark" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Benchmark</h3>
 <p>r2 score of 0.5 will be used as a benchmark. 0.5 is a reasonable benchmark as equity return is often said unpredictable</p>
 <h2 id="iii-methodology"><a name="user-content-iii-methodology" href="#iii-methodology" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>III. Methodology</h2>
@@ -1186,71 +1201,71 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <p>As discussed, the original dataset needs to be normalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). I first removed the columns for real values as this project aims to predict change of nominal S&amp;P Composite price change and CPI in the dataset can be used to calculate the real value when needed. After this procedure, instead of using raw dataset, 12 months changes for each feature and the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo; will be used. The target feature will be 12 month forward changes in S&amp;P Composite price.</p>
 <p>The following modifications were made on the dataset. </p>
 <ol>
-<li>Removed features with real values as the project is focusing on predicting % change of nominal S&amp;P Composite price.</li>
-<li>Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features.</li>
-<li>Added a target feature &ldquo;y&rdquo; which is 12 months forward return of S&amp;P Composite.</li>
-<li>Added following features that seem to be have an effect on the prediction.<ul>
-<li>The real value of PE Ratio as the ratio is considered as a good indicator on predicting return in general. </li>
+<li>Removed features with real values as the project is focusing on predicting % change of nominal S&amp;P Composite price.<ul>
+<li>Features [&lsquo;Real Price&rsquo;,&rsquo;Real Earnings&rsquo;,&rsquo;Real Dividend&rsquo;] were removed</li>
 </ul>
 </li>
-<li>Removed outliers <ul>
+<li>Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features.<br />
+Before<br />
+meth1 meth2 </li>
+</ol>
+<p>After <br />
+meth3 meth4</p>
+<ol>
+<li>
+<p>Added a target feature &ldquo;y&rdquo; which is 12 months forward return of S&amp;P Composite.<br />
+meth<br />
+meth5</p>
+</li>
+<li>
+<p>Added following features that seem to be have an effect on the prediction.</p>
+<ul>
+<li>The real value of PE Ratio as the ratio is considered as a good indicator on predicting return in general. As investpedia says, &ldquo;The P/E ratio is a much better indicator of the value of a stock than the market price alone, since it allows investors to make a better apples to apples comparison&rdquo;.</li>
+</ul>
+</li>
+<li>
+<p>Removed outliers </p>
+<ul>
 <li>Outliers are omitted to avoid having a misleading r2 score - it has a weakness as the score could be greatly affected by unusual data points</li>
 </ul>
 </li>
 </ol>
 <h3 id="implementation"><a name="user-content-implementation" href="#implementation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Implementation</h3>
-<p>Cross validation is used when fitting the algorithms to the dataset. Cross validation is used in order to estimate how accurately a predictive model will perform in practice.</p>
+<p>TimeSeries Split Validator was used to test the models. This validator provides train/test indices to split time series data samples that are observed at fixed time intervals, in train/test sets. This cross-validation object is a variation of KFold. In the kth split, it returns first k folds as train set and the (k+1)th fold as test set.</p>
 <h3 id="refinement"><a name="user-content-refinement" href="#refinement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Refinement</h3>
-<p>At the beginning I used algorithms with default settings to determine which algorithm best serves the purpose of this project. After determining the algorithm, I used grid search in order to optimize the algorithms in this project.</p>
+<p>At the beginning I used algorithms with default settings to determine which algorithm best serves the purpose of this project. After determining the algorithm, I used grid search in order to optimize the algorithms in this project. I used the default number of splits which is 3.</p>
 <h2 id="iv-results"><a name="user-content-iv-results" href="#iv-results" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>IV. Results</h2>
 <h3 id="model-evaluation-and-validation"><a name="user-content-model-evaluation-and-validation" href="#model-evaluation-and-validation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Model Evaluation and Validation</h3>
-<p>Memo 05132017<br />
+<p>Followings are the result of each scores with split <br />
 SVR<br />
-(&lsquo;r2 score:&rsquo;, 0.46203561013012351, &lsquo;explained variance score:&rsquo;, 0.49076547652335589, &lsquo;mean_squared_error&rsquo;, 0.027909821203550064, &lsquo;mean_absolute_error&rsquo;, 0.13322021924068453, &lsquo;median_absolute_error&rsquo;, 0.11494323190727181)<br />
+Split 1</p>
+<ul>
+<li>&lsquo;r2 score:&rsquo;, 0.46203561013012351, &lsquo;explained variance score:&rsquo;, 0.49076547652335589, &lsquo;mean_squared_error&rsquo;, 0.027909821203550064, &lsquo;mean_absolute_error&rsquo;, 0.13322021924068453, &lsquo;median_absolute_error&rsquo;, 0.11494323190727181)<br />
+Split 2<br />
 (&lsquo;r2 score:&rsquo;, 0.83734051188973591, &lsquo;explained variance score:&rsquo;, 0.8507121009308416, &lsquo;mean_squared_error&rsquo;, 0.0036388683253097179, &lsquo;mean_absolute_error&rsquo;, 0.048233671571316319, &lsquo;median_absolute_error&rsquo;, 0.042793838457600555)<br />
-(&lsquo;r2 score:&rsquo;, 0.56601185038138779, &lsquo;explained variance score:&rsquo;, 0.57365252325183336, &lsquo;mean_squared_error&rsquo;, 0.011315896786256328, &lsquo;mean_absolute_error&rsquo;, 0.072512443085194361, &lsquo;median_absolute_error&rsquo;, 0.047410680757838497)</p>
-<p>KNeighbor<br />
+Split 3<br />
+(&lsquo;r2 score:&rsquo;, 0.56601185038138779, &lsquo;explained variance score:&rsquo;, 0.57365252325183336, &lsquo;mean_squared_error&rsquo;, 0.011315896786256328, &lsquo;mean_absolute_error&rsquo;, 0.072512443085194361, &lsquo;median_absolute_error&rsquo;, 0.047410680757838497)</li>
+</ul>
+<p>K Nearest Neighbor<br />
+Split 1<br />
 (&lsquo;r2 score:&rsquo;, 0.11366052722544762, &lsquo;explained variance score:&rsquo;, 0.27650168616411541, &lsquo;mean_squared_error&rsquo;, 0.045983668578453943, &lsquo;mean_absolute_error&rsquo;, 0.16797549806049597, &lsquo;median_absolute_error&rsquo;, 0.14124764701469139)<br />
+Split 2<br />
 (&lsquo;r2 score:&rsquo;, 0.6262866037854673, &lsquo;explained variance score:&rsquo;, 0.63084140197008631, &lsquo;mean_squared_error&rsquo;, 0.0083603720633077076, &lsquo;mean_absolute_error&rsquo;, 0.071785369871896237, &lsquo;median_absolute_error&rsquo;, 0.062301103917071922)<br />
+Split 3<br />
 (&lsquo;r2 score:&rsquo;, -0.082982563354474292, &lsquo;explained variance score:&rsquo;, 0.10866035141914021, &lsquo;mean_squared_error&rsquo;, 0.028237911378465357, &lsquo;mean_absolute_error&rsquo;, 0.12316307176270737, &lsquo;median_absolute_error&rsquo;, 0.089980760066028259)</p>
-<p>Linear<br />
+<p>Linear Regression <br />
+Split 1<br />
 (&lsquo;r2 score:&rsquo;, 0.88629761910370441, &lsquo;explained variance score:&rsquo;, 0.88728464199424062, &lsquo;mean_squared_error&rsquo;, 0.0058989278491112474, &lsquo;mean_absolute_error&rsquo;, 0.051686380139549411, &lsquo;median_absolute_error&rsquo;, 0.037683001046082007)<br />
+Split 2<br />
 (&lsquo;r2 score:&rsquo;, 0.89932003229322677, &lsquo;explained variance score:&rsquo;, 0.90247836633119305, &lsquo;mean_squared_error&rsquo;, 0.0022523195525675855, &lsquo;mean_absolute_error&rsquo;, 0.036520785100067572, &lsquo;median_absolute_error&rsquo;, 0.028205368886686434)<br />
+Split 3<br />
 (&lsquo;r2 score:&rsquo;, 0.9020251503591914, &lsquo;explained variance score:&rsquo;, 0.90603497761453722, &lsquo;mean_squared_error&rsquo;, 0.0025546164962307679, &lsquo;mean_absolute_error&rsquo;, 0.037571621770448774, &lsquo;median_absolute_error&rsquo;, 0.02698937431809878)</p>
-<p>r2 score of each algorithm with default settings are shown below.</p>
-<ol>
-<li>Linear regression: 0.91077659608990325</li>
-<li>KNeibors: 0.76730206091093156</li>
-<li>SVR: 0.85812976342580705 </li>
-</ol>
-<p>As linear regression has the highest r2 score, I concluded linear regression best serves the purpose of this project. After using grid search on linear regression algorithm, the r2 score changed to 0.91077659608990336 which is almost the same to the score with default settings. Parameters after grid search are followings {&lsquo;copy_X&rsquo;: True, &lsquo;normalize&rsquo;: True, &lsquo;fit_intercept&rsquo;: True} which shows the parameter &lsquo;normalize&rsquo; changed from False to True. It is reasonable that the linear regression is the best estimator as this is the most commonly used model in finance. The prediction for some samples also shows that the model is working well.</p>
-<p>Comparison of Samples&rsquo; y and Predicted y</p>
-<table>
-<thead>
-<tr>
-<th>Index</th>
-<th>Actual y</th>
-<th>Predicted y</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>164</td>
-<td>-0.043763676148796504</td>
-<td>-0.05016142</td>
-</tr>
-<tr>
-<td>333</td>
-<td>0.26212319790301453</td>
-<td>0.27635389</td>
-</tr>
-<tr>
-<td>1000</td>
-<td>0.13199406768235122</td>
-<td>0.1581155</td>
-</tr>
-</tbody>
-</table>
+<p>As you can see Linear Regression scored better in almost all the score. Also more stability in scores overtime is observed for Linear Regression compared to other regressions. For example, the r2 scores of linear regression stays around 0.9 whereas obvious instability of r2 score is observed for SVR and K Nearest Neighbors.</p>
+<p>Therefore, I concluded linear regression best serves the purpose for this project. </p>
+<p>Couldn&rsquo;t see much difference <br />
+(&lsquo;r2 score:&rsquo;, 0.89664579541310629, &lsquo;explained variance score:&rsquo;, 0.89691708583413254, &lsquo;mean_squared_error&rsquo;, 0.0061842954759759924, &lsquo;mean_absolute_error&rsquo;, 0.051265662455921866, &lsquo;median_absolute_error&rsquo;, 0.037261406664000601)<br />
+(&lsquo;r2 score:&rsquo;, 0.89986981562675339, &lsquo;explained variance score:&rsquo;, 0.90286244646868152, &lsquo;mean_squared_error&rsquo;, 0.0022638811791995807, &lsquo;mean_absolute_error&rsquo;, 0.036607046703997399, &lsquo;median_absolute_error&rsquo;, 0.028266085435894095)<br />
+(&lsquo;r2 score:&rsquo;, 0.90054123332737157, &lsquo;explained variance score:&rsquo;, 0.90377986316285341, &lsquo;mean_squared_error&rsquo;, 0.0027188916770536373, &lsquo;mean_absolute_error&rsquo;, 0.038394690588562007, &lsquo;median_absolute_error&rsquo;, 0.026809489549802112)</p>
 <h3 id="justification"><a name="user-content-justification" href="#justification" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Justification</h3>
 <p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. The result is reasonable as linear regression is historically working well in economics.This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
 <h2 id="v-conclusion"><a name="user-content-v-conclusion" href="#v-conclusion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>V. Conclusion</h2>

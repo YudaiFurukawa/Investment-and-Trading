@@ -50,14 +50,14 @@ snp = quandl.get('YALE/SPCOMP') #SNP price, earnign, CPI, dividend
 #############################################
 ###analysis 0: data exploration  
 #############################################
-snp.plot()
+# snp.plot()
 # snp.plot.box()
 # scatter_matrix(snp, alpha = 0.3, figsize = (14,8), diagonal = 'kde');
 # plt.show()
 
 snp_timeSeries = snp.drop(["Real Price","S&P Composite"], axis = 1)
-snp_timeSeries.plot()
-plt.show()
+# snp_timeSeries.plot()
+# plt.show()
 
 #////////////////////////////////////////////
 
@@ -75,12 +75,13 @@ def delcol(data,columns):
 	for key in columns:
 		del data[key]
 delcol(snp,['Real Price','Real Earnings','Real Dividend'])
-
+snp = snp.dropna()
+# print(snp[12:])
 ###new arrays: monthly changes
 snp_changes = (snp/snp.shift(12))-1
 snp_changes = snp_changes.fillna(value =0)
 snp_changes['y'] = snp_changes['S&P Composite'].shift(-1) #snp['S&P Composite'].pct_change(periods = 12).dropna()#.reset_index(drop = True)
-
+print(snp_changes[12:].dropna())
 ###new col
 snp_changes['PE Ratio (value)'] = snp['Cyclically Adjusted PE Ratio']
 snp_changes['PER 6m change'] = (snp['Cyclically Adjusted PE Ratio']/snp['Cyclically Adjusted PE Ratio'].shift(6))-1
@@ -124,10 +125,11 @@ for feature in snp_changes.keys():
 # print('these are outliers',Counter(outliersList))
 
 ###print outliers
-outliers_indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624,1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550]
+outliers_indices = [607, 609, 610, 611, 612, 605, 606, 608, 622, 623, 624,1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550,1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531, 1532]
 outliers_earning = [497, 498, 499, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549, 1550, 1551]
 # print('outliers for the earning feature',snp_changes.ix[outliers_earning])
 print('earnings>2',snp_changes[snp_changes['Earnings']>2].index.tolist())
+#('earnings>2', [1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531, 1532])
 # print(snp_changes.ix[outliers_indices])
 
 ###drop outliers
@@ -137,7 +139,7 @@ good_data = snp_changes.drop(snp_changes.index[outliers_indices]).reset_index(dr
 # np.savetxt("file_name.csv", good_data, delimiter=",", fmt='%s')
 ###plot
 good_data_timeSeries = good_data.drop(["PE Ratio (value)"], axis = 1)
-good_data_timeSeries.plot()
+# good_data_timeSeries.plot()
 # good_data_timeSeries2 = good_data.drop(["PE Ratio (value)","Real Price",'S&P Composite'], axis = 1)
 # good_data_timeSeries2.plot()
 # plt.show()
@@ -154,7 +156,7 @@ good_data_timeSeries.plot()
 # snp_changes.kurtosis()
 
 ##box plot
-snp_changes_box = good_data.drop(["PE Ratio (value)"], axis = 1)
+snp_changes_box = good_data.drop(["PE Ratio (value)" ,"price 24m change","y"], axis = 1)
 snp_changes_box.plot.box()
 # snp_changes["PE Ratio (value)"].plot.box()
 	
@@ -172,14 +174,13 @@ print(pd.DataFrame(good_data).corr())
 
 ###grid search, choose estimator
 ##before refinement
-estimator = SVR()
+# estimator = SVR()
 # estimator = KNeighborsRegressor()
 # estimator = LinearRegression()
 #after refinement
-# estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
-# estimator = grid_search.GridSearchCV(KNeighborsRegressor(), param_grid={"n_neighbors": [2,3,4,5,6,7,8,9,10]})
-# estimator = linear_model.RidgeCV(alphas=[0.1, 0.5,1.0, 10.0])
-# estimator = grid_search.GridSearchCV(LinearRegression(), param_grid =  {'fit_intercept':[True,False], 'normalize':[True,False], 'copy_X':[True, False]})
+estimator = grid_search.GridSearchCV(SVR(kernel='rbf', gamma=0.1), cv=5, param_grid={"C": [1e0, 1e1, 1e2, 1e3],"gamma": np.logspace(-2, 2, 5)})
+estimator = grid_search.GridSearchCV(KNeighborsRegressor(), param_grid={"n_neighbors": [2,3,4,5,6,7,8,9,10]})
+estimator = grid_search.GridSearchCV(LinearRegression(), param_grid =  {'fit_intercept':[True,False], 'normalize':[True,False], 'copy_X':[True, False]})
 
 
 #////////////////////////////////////////////
