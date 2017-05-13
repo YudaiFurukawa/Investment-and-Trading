@@ -1195,7 +1195,7 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 </li>
 </ol>
 <h3 id="benchmark"><a name="user-content-benchmark" href="#benchmark" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Benchmark</h3>
-<p>r2 score of 0.5 will be used as a benchmark. 0.5 is a reasonable benchmark as equity return is often said unpredictable</p>
+<p>r2 score of 0.5 will be used as a benchmark. 0.5 is a reasonable benchmark as equity return is often said unpredictable. Also the result will be justified by the stability of r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error through back testing.</p>
 <h2 id="iii-methodology"><a name="user-content-iii-methodology" href="#iii-methodology" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>III. Methodology</h2>
 <h3 id="data-preprocessing"><a name="user-content-data-preprocessing" href="#data-preprocessing" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data Preprocessing</h3>
 <p>As discussed, the original dataset needs to be normalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). I first removed the columns for real values as this project aims to predict change of nominal S&amp;P Composite price change and CPI in the dataset can be used to calculate the real value when needed. After this procedure, instead of using raw dataset, 12 months changes for each feature and the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo; will be used. The target feature will be 12 month forward changes in S&amp;P Composite price.</p>
@@ -1234,18 +1234,20 @@ meth5</p>
 <p>TimeSeries Split Validator was used to test the models. This validator provides train/test indices to split time series data samples that are observed at fixed time intervals, in train/test sets. This cross-validation object is a variation of KFold. In the kth split, it returns first k folds as train set and the (k+1)th fold as test set.</p>
 <h3 id="refinement"><a name="user-content-refinement" href="#refinement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Refinement</h3>
 <p>At the beginning I used algorithms with default settings to determine which algorithm best serves the purpose of this project. After determining the algorithm, I used grid search in order to optimize the algorithms in this project. I used the default number of splits which is 3.</p>
+<p>Step 1: Choose Algorithm <br />
+refine1<br />
+Step 2: Grid Search <br />
+refine2</p>
 <h2 id="iv-results"><a name="user-content-iv-results" href="#iv-results" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>IV. Results</h2>
 <h3 id="model-evaluation-and-validation"><a name="user-content-model-evaluation-and-validation" href="#model-evaluation-and-validation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Model Evaluation and Validation</h3>
-<p>Followings are the result of each scores with split <br />
-SVR<br />
-Split 1</p>
-<ul>
-<li>&lsquo;r2 score:&rsquo;, 0.46203561013012351, &lsquo;explained variance score:&rsquo;, 0.49076547652335589, &lsquo;mean_squared_error&rsquo;, 0.027909821203550064, &lsquo;mean_absolute_error&rsquo;, 0.13322021924068453, &lsquo;median_absolute_error&rsquo;, 0.11494323190727181)<br />
+<p>Followings are the result of each scores with split </p>
+<p>SVR<br />
+Split 1<br />
+(&lsquo;r2 score:&rsquo;, 0.46203561013012351, &lsquo;explained variance score:&rsquo;, 0.49076547652335589, &lsquo;mean_squared_error&rsquo;, 0.027909821203550064, &lsquo;mean_absolute_error&rsquo;, 0.13322021924068453, &lsquo;median_absolute_error&rsquo;, 0.11494323190727181)<br />
 Split 2<br />
 (&lsquo;r2 score:&rsquo;, 0.83734051188973591, &lsquo;explained variance score:&rsquo;, 0.8507121009308416, &lsquo;mean_squared_error&rsquo;, 0.0036388683253097179, &lsquo;mean_absolute_error&rsquo;, 0.048233671571316319, &lsquo;median_absolute_error&rsquo;, 0.042793838457600555)<br />
 Split 3<br />
-(&lsquo;r2 score:&rsquo;, 0.56601185038138779, &lsquo;explained variance score:&rsquo;, 0.57365252325183336, &lsquo;mean_squared_error&rsquo;, 0.011315896786256328, &lsquo;mean_absolute_error&rsquo;, 0.072512443085194361, &lsquo;median_absolute_error&rsquo;, 0.047410680757838497)</li>
-</ul>
+(&lsquo;r2 score:&rsquo;, 0.56601185038138779, &lsquo;explained variance score:&rsquo;, 0.57365252325183336, &lsquo;mean_squared_error&rsquo;, 0.011315896786256328, &lsquo;mean_absolute_error&rsquo;, 0.072512443085194361, &lsquo;median_absolute_error&rsquo;, 0.047410680757838497)</p>
 <p>K Nearest Neighbor<br />
 Split 1<br />
 (&lsquo;r2 score:&rsquo;, 0.11366052722544762, &lsquo;explained variance score:&rsquo;, 0.27650168616411541, &lsquo;mean_squared_error&rsquo;, 0.045983668578453943, &lsquo;mean_absolute_error&rsquo;, 0.16797549806049597, &lsquo;median_absolute_error&rsquo;, 0.14124764701469139)<br />
@@ -1262,21 +1264,22 @@ Split 3<br />
 (&lsquo;r2 score:&rsquo;, 0.9020251503591914, &lsquo;explained variance score:&rsquo;, 0.90603497761453722, &lsquo;mean_squared_error&rsquo;, 0.0025546164962307679, &lsquo;mean_absolute_error&rsquo;, 0.037571621770448774, &lsquo;median_absolute_error&rsquo;, 0.02698937431809878)</p>
 <p>As you can see Linear Regression scored better in almost all the score. Also more stability in scores overtime is observed for Linear Regression compared to other regressions. For example, the r2 scores of linear regression stays around 0.9 whereas obvious instability of r2 score is observed for SVR and K Nearest Neighbors.</p>
 <p>Therefore, I concluded linear regression best serves the purpose for this project. </p>
-<p>Couldn&rsquo;t see much difference <br />
+<p>After using grid search, not much improvement was observed. The scores are followings.</p>
+<p>Split 1 <br />
 (&lsquo;r2 score:&rsquo;, 0.89664579541310629, &lsquo;explained variance score:&rsquo;, 0.89691708583413254, &lsquo;mean_squared_error&rsquo;, 0.0061842954759759924, &lsquo;mean_absolute_error&rsquo;, 0.051265662455921866, &lsquo;median_absolute_error&rsquo;, 0.037261406664000601)<br />
-(&lsquo;r2 score:&rsquo;, 0.89986981562675339, &lsquo;explained variance score:&rsquo;, 0.90286244646868152, &lsquo;mean_squared_error&rsquo;, 0.0022638811791995807, &lsquo;mean_absolute_error&rsquo;, 0.036607046703997399, &lsquo;median_absolute_error&rsquo;, 0.028266085435894095)<br />
+Split 2<br />
+(&lsquo;r2 score:&rsquo;, 0.89986981562675339, &lsquo;explained variance score:&rsquo;, 0.90286244646868152, &lsquo;mean_squared_error&rsquo;, 0.0022638811791995807, &lsquo;mean_absolute_error&rsquo;, 0.036607046703997399, &lsquo;median_absolute_error&rsquo;, 0.028266085435894095)</p>
+<p>Split 3<br />
 (&lsquo;r2 score:&rsquo;, 0.90054123332737157, &lsquo;explained variance score:&rsquo;, 0.90377986316285341, &lsquo;mean_squared_error&rsquo;, 0.0027188916770536373, &lsquo;mean_absolute_error&rsquo;, 0.038394690588562007, &lsquo;median_absolute_error&rsquo;, 0.026809489549802112)</p>
 <h3 id="justification"><a name="user-content-justification" href="#justification" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Justification</h3>
-<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. The result is reasonable as linear regression is historically working well in economics.This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
+<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. </p>
+<p>The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions.<br />
+Also the result could be justified as linear regressions are historically working well in economics and finance field. This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
 <h2 id="v-conclusion"><a name="user-content-v-conclusion" href="#v-conclusion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>V. Conclusion</h2>
 <h3 id="free-form-visualization"><a name="user-content-free-form-visualization" href="#free-form-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Free-Form Visualization</h3>
 <p>Figure 3: % change in each factor (24 month % change for &lsquo;price 24m change&rsquo;. 12 months % change for other factors)<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform1.png?raw=true" /></p>
 <p>This graph is a box plot of the dataset. As you can see mean values of all the features are above 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&amp;P Composite. </p>
-<p>In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:<br />
-- <em>Have you visualized a relevant or important quality about the problem, dataset, input data, or results?</em><br />
-- <em>Is the visualization thoroughly analyzed and discussed?</em><br />
-- <em>If a plot is provided, are the axes, title, and datum clearly defined?</em></p>
 <h3 id="reflection"><a name="user-content-reflection" href="#reflection" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Reflection</h3>
 <p>I started with definition the goal, searching datasets I can use, analyzing the characteristics of the dataset, and processing the data in order to have it ready for regression. After having the data ready, I decided how to measure the result, chose regressions that would be useful with taking strength and weakness for each regression in mind, and figured out which regression will best serve the purpose.</p>
 <p>I found it interesting that I could define the problem as any of supervised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.</p>
