@@ -1020,25 +1020,22 @@ body .markdown-body
 May 14th, 2017</p>
 <h2 id="i-definition"><a name="user-content-i-definition" href="#i-definition" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>I. Definition</h2>
 <h3 id="project-overview"><a name="user-content-project-overview" href="#project-overview" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Project Overview</h3>
-<p>This project is about stock investing, and I am focusing on price prediction of a stock market index. A stock index is an aggregate value produced by combining several stocks, and it helps investors to measure and compare values of the stock markets such as in the US and Japan.<br />
-The Dow Jones Industrial Average (DJIA), NASDAQ Composite index and the S&amp;P Composite are examples of stock index.<br />
-As a wealth of information such as price, earnings, dividends, and CPI are available, I am going to use those information to do the prediction.<br />
-A dataset of S&amp;P Composite published by Yale Department of Economics will be used in this project. For more information, please refer the link below:<br />
+<p>This project is about stock investing, and I am focusing on price prediction of a stock market index. A stock index is an aggregate value produced by combining several stocks, and it helps investors to measure and compare values of the stock markets such as in the US and Japan. The Dow Jones Industrial Average (DJIA), NASDAQ Composite index and the S&amp;P Composite are examples of stock index. As a wealth of information such as price, earnings, dividends, and CPI are available, I am going to use those information to do the prediction. A dataset of S&amp;P Composite published by Yale Department of Economics will be used in this project. For more information, please refer the link below:<br />
 <a href="https://www.quandl.com/data/YALE-Yale-Department-of-Economics">https://www.quandl.com/data/YALE-Yale-Department-of-Economics</a></p>
 <h3 id="problem-statement"><a name="user-content-problem-statement" href="#problem-statement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Problem Statement</h3>
 <p>For this project, the task is to build a stock index price predictor. A 12 month forward price change of S&amp;P composite will be predicted by using regression. The project is going to be a supervised learning.</p>
 <p>Following steps will be taken to make the predictor.</p>
 <ol>
 <li>
-<p>Deciding inputs that are necessary to predict a 12 month forward price change by using correlation between each feature and 12 month forward price changes. The inputs are decided on the ground of common sense in the financial industry and statistical figures such as correlation. </p>
+<p>Choosing inputs that are necessary to predict a 12 month forward price change by using correlation between each feature and 12 month forward price changes. The inputs are decided on the ground of statistical figures such as correlation and common sense in the financial industry.</p>
 </li>
 <li>
 <p>Deciding the best regression model according to the metrics defined in the next section.</p>
 </li>
 </ol>
 <p>In the step 1, I am expecting PE Ratio and earning growth are going to be among the dominant inputs as it is commonly used in the financial industry to justify investment. In the step 2, I am expecting that r2 score will best serve the purpose although there are other metrics such as mean absolute error , mean squared error, and explained variance score as well as median absolute error. This will be discussed in the next section.</p>
-<h3 id="metrics"><a name="user-content-metrics" href="#metrics" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>metrics</h3>
-<p>r2 score, explained variance score, and mean squared error, as well as explained variance score and median absolute error are all going to be used to validate the result. By using all the metrics, I can overcome the risk of being biased. Expected result is the best regression model have the highest score in all the scoring metrics.</p>
+<h3 id="metrics"><a name="user-content-metrics" href="#metrics" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Metrics</h3>
+<p>r2 score, explained variance score, and mean squared error, as well as explained variance score and median absolute error are all going to be used to validate the result. By using all the metrics, the risk of being biased will be reduced. Expected result is the best regression model have the highest score in all the scoring metrics.</p>
 <h2 id="ii-analysis"><a name="user-content-ii-analysis" href="#ii-analysis" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>II. Analysis</h2>
 <h3 id="data-exploration"><a name="user-content-data-exploration" href="#data-exploration" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data Exploration</h3>
 <p>A dataset of S&amp;P Composite published by Yale Department of Economics will be used in this project. <br />
@@ -1046,7 +1043,7 @@ The dataset (named snp in this project) is monthly time series of S&amp;P Compos
 <p>For more information, please refer the link below:<br />
 <a href="https://www.quandl.com/data/YALE-Yale-Department-of-Economics">https://www.quandl.com/data/YALE-Yale-Department-of-Economics</a></p>
 <p>As of 2017-04-08, the basic statistics of snp the dataset is following.<br />
-Table 1</p>
+Table 1: Basic Statistics of the Original Dataset</p>
 <table>
 <thead>
 <tr>
@@ -1161,8 +1158,7 @@ Table 1</p>
 </tr>
 </tbody>
 </table>
-<p>What can be concluded from table 1 is that there are huge deviation in most of the factors. Remarkably, the maximum price of S&amp;P Composite is 863.3699634 times larger than its minimum price although the maximum earning is 662.25 times larger than its minimum and the maximum of dividend only 257.66 times.<br />
-This fact shows the S&amp;P Composite historically advanced faster than earnings and dividend.</p>
+<p>What can be concluded from table 1 is that there are huge deviation in most of the factors overtime. Remarkably, the maximum price of S&amp;P Composite is 863.3699634 times larger than its minimum price although the maximum earning is 662.25 times larger than its minimum and the maximum of dividend only 257.66 times. This fact shows the S&amp;P Composite historically advanced faster than earnings and dividend.</p>
 <p>Also, as you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclically Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.</p>
 <h3 id="exploratory-visualization"><a name="user-content-exploratory-visualization" href="#exploratory-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Exploratory Visualization</h3>
 <p>Figure 1: Time Series for all factors<br />
@@ -1188,7 +1184,9 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <li>I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. </li>
 </ul>
 </li>
-<li>SVR<ul>
+<li>
+<p>SVR</p>
+<ul>
 <li>Support Vector Regression is very specific class of algorithms, characterized by usage of kernels, absence of local minima, sparseness of the solution and capacity control obtained by acting on the margin, or on number of support vectors, etc. It can be used to avoid difficulties of using linear functions in the high dimensional feature space and optimization problem is transformed into dual convex quadratic programmes.</li>
 <li>I chose SVR as it can do both linear and non-linear regressions and it is less likely to over fit. </li>
 </ul>
@@ -1205,15 +1203,15 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <li>Features [&lsquo;Real Price&rsquo;,&rsquo;Real Earnings&rsquo;,&rsquo;Real Dividend&rsquo;] were removed</li>
 </ul>
 </li>
-<li>Generated a dataset called snp_changes which shows 1 yea3 change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features </li>
-</ol>
-<p>Before Change<br />
+<li>
+<p>Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features </p>
+<p>Before Modification<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth1.png?raw=true" /><br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth2.png?raw=true" /></p>
-<p>After Change<br />
+<p>After Modification<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth3.png?raw=true" /><br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth4.png?raw=true" /></p>
-<ol>
+</li>
 <li>
 <p>Added a target feature &ldquo;y&rdquo; which is 12 months forward return of S&amp;P Composite.<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/meth5.png?raw=true" /></p>
@@ -1243,39 +1241,149 @@ Step 2: Grid Search <br />
 <h3 id="model-evaluation-and-validation"><a name="user-content-model-evaluation-and-validation" href="#model-evaluation-and-validation" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Model Evaluation and Validation</h3>
 <p>Followings are the result of each scores with split </p>
 <p>SVR<br />
-Split 1<br />
-(&lsquo;r2 score:&rsquo;, 0.46203561013012351, &lsquo;explained variance score:&rsquo;, 0.49076547652335589, &lsquo;mean_squared_error&rsquo;, 0.027909821203550064, &lsquo;mean_absolute_error&rsquo;, 0.13322021924068453, &lsquo;median_absolute_error&rsquo;, 0.11494323190727181)<br />
-Split 2<br />
-(&lsquo;r2 score:&rsquo;, 0.83734051188973591, &lsquo;explained variance score:&rsquo;, 0.8507121009308416, &lsquo;mean_squared_error&rsquo;, 0.0036388683253097179, &lsquo;mean_absolute_error&rsquo;, 0.048233671571316319, &lsquo;median_absolute_error&rsquo;, 0.042793838457600555)<br />
-Split 3<br />
-(&lsquo;r2 score:&rsquo;, 0.56601185038138779, &lsquo;explained variance score:&rsquo;, 0.57365252325183336, &lsquo;mean_squared_error&rsquo;, 0.011315896786256328, &lsquo;mean_absolute_error&rsquo;, 0.072512443085194361, &lsquo;median_absolute_error&rsquo;, 0.047410680757838497)</p>
-<p>K Nearest Neighbor<br />
-Split 1<br />
-(&lsquo;r2 score:&rsquo;, 0.11366052722544762, &lsquo;explained variance score:&rsquo;, 0.27650168616411541, &lsquo;mean_squared_error&rsquo;, 0.045983668578453943, &lsquo;mean_absolute_error&rsquo;, 0.16797549806049597, &lsquo;median_absolute_error&rsquo;, 0.14124764701469139)<br />
-Split 2<br />
-(&lsquo;r2 score:&rsquo;, 0.6262866037854673, &lsquo;explained variance score:&rsquo;, 0.63084140197008631, &lsquo;mean_squared_error&rsquo;, 0.0083603720633077076, &lsquo;mean_absolute_error&rsquo;, 0.071785369871896237, &lsquo;median_absolute_error&rsquo;, 0.062301103917071922)<br />
-Split 3<br />
-(&lsquo;r2 score:&rsquo;, -0.082982563354474292, &lsquo;explained variance score:&rsquo;, 0.10866035141914021, &lsquo;mean_squared_error&rsquo;, 0.028237911378465357, &lsquo;mean_absolute_error&rsquo;, 0.12316307176270737, &lsquo;median_absolute_error&rsquo;, 0.089980760066028259)</p>
-<p>Linear Regression <br />
-Split 1<br />
-(&lsquo;r2 score:&rsquo;, 0.88629761910370441, &lsquo;explained variance score:&rsquo;, 0.88728464199424062, &lsquo;mean_squared_error&rsquo;, 0.0058989278491112474, &lsquo;mean_absolute_error&rsquo;, 0.051686380139549411, &lsquo;median_absolute_error&rsquo;, 0.037683001046082007)<br />
-Split 2<br />
-(&lsquo;r2 score:&rsquo;, 0.89932003229322677, &lsquo;explained variance score:&rsquo;, 0.90247836633119305, &lsquo;mean_squared_error&rsquo;, 0.0022523195525675855, &lsquo;mean_absolute_error&rsquo;, 0.036520785100067572, &lsquo;median_absolute_error&rsquo;, 0.028205368886686434)<br />
-Split 3<br />
-(&lsquo;r2 score:&rsquo;, 0.9020251503591914, &lsquo;explained variance score:&rsquo;, 0.90603497761453722, &lsquo;mean_squared_error&rsquo;, 0.0025546164962307679, &lsquo;mean_absolute_error&rsquo;, 0.037571621770448774, &lsquo;median_absolute_error&rsquo;, 0.02698937431809878)</p>
-<p>As you can see Linear Regression scored better in almost all the score. Also more stability in scores overtime is observed for Linear Regression compared to other regressions. For example, the r2 scores of linear regression stays around 0.9 whereas obvious instability of r2 score is observed for SVR and K Nearest Neighbors.</p>
-<p>Therefore, I concluded linear regression best serves the purpose for this project. </p>
+Split 1</p>
+<table>
+<thead>
+<tr>
+<th>Regressors</th>
+<th>Split #</th>
+<th>R2 Score</th>
+<th>Explained Variance Score</th>
+<th>Mean Squared Error</th>
+<th>Mean Absolute Error</th>
+<th>Median Absolute Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SVR</td>
+<td>Split 1</td>
+<td>0.46203561013012351</td>
+<td>0.49076547652335589</td>
+<td>0.027909821203550064</td>
+<td>0.13322021924068453</td>
+<td>0.11494323190727181</td>
+</tr>
+<tr>
+<td>SVR</td>
+<td>Split 2</td>
+<td>0.83734051188973591</td>
+<td>0.8507121009308416</td>
+<td>0.0036388683253097179</td>
+<td>0.048233671571316319</td>
+<td>0.042793838457600555</td>
+</tr>
+<tr>
+<td>SVR</td>
+<td>Split 3</td>
+<td>0.56601185038138779</td>
+<td>0.57365252325183336</td>
+<td>0.011315896786256328</td>
+<td>0.072512443085194361</td>
+<td>0.047410680757838497</td>
+</tr>
+<tr>
+<td>K Nearest Neighbors</td>
+<td>Split 1</td>
+<td>0.11366052722544762</td>
+<td>0.27650168616411541</td>
+<td>045983668578453943</td>
+<td>0.16797549806049597</td>
+<td>0.14124764701469139</td>
+</tr>
+<tr>
+<td>K Nearest Neighbors</td>
+<td>Split 2</td>
+<td>0.6262866037854673</td>
+<td>0.63084140197008631</td>
+<td>0.0083603720633077076</td>
+<td>0.071785369871896237</td>
+<td>0.062301103917071922</td>
+</tr>
+<tr>
+<td>K Nearest Neighbors</td>
+<td>Split 3</td>
+<td>-0.082982563354474292</td>
+<td>0.10866035141914021</td>
+<td>0.028237911378465357</td>
+<td>0.12316307176270737</td>
+<td>0.089980760066028259</td>
+</tr>
+<tr>
+<td>Linear Regression</td>
+<td>Split 1</td>
+<td>0.88629761910370441</td>
+<td>0.88728464199424062</td>
+<td>0.0058989278491112474</td>
+<td>0.051686380139549411</td>
+<td>0.037683001046082007</td>
+</tr>
+<tr>
+<td>Linear Regression</td>
+<td>Split 2</td>
+<td>0.89932003229322677</td>
+<td>0.90247836633119305</td>
+<td>0.0022523195525675855</td>
+<td>0.036520785100067572</td>
+<td>0.028205368886686434</td>
+</tr>
+<tr>
+<td>Linear Regression</td>
+<td>Split 3</td>
+<td>0.9020251503591914</td>
+<td>0.90603497761453722</td>
+<td>0.0025546164962307679</td>
+<td>0.037571621770448774</td>
+<td>0.02698937431809878</td>
+</tr>
+</tbody>
+</table>
+<p>As you can see Linear Regression scored better in almost all the score. Also more stability in scores overtime is observed for Linear Regression compared to other regressions. For example, the r2 scores of linear regression stays around 0.9 whereas obvious instability of r2 score is observed for SVR and K Nearest Neighbors. Therefore, I concluded linear regression best serves the purpose for this project. </p>
 <p>After using grid search, not much improvement was observed. The scores are followings.</p>
-<p>Split 1 <br />
-(&lsquo;r2 score:&rsquo;, 0.89664579541310629, &lsquo;explained variance score:&rsquo;, 0.89691708583413254, &lsquo;mean_squared_error&rsquo;, 0.0061842954759759924, &lsquo;mean_absolute_error&rsquo;, 0.051265662455921866, &lsquo;median_absolute_error&rsquo;, 0.037261406664000601)<br />
-Split 2<br />
-(&lsquo;r2 score:&rsquo;, 0.89986981562675339, &lsquo;explained variance score:&rsquo;, 0.90286244646868152, &lsquo;mean_squared_error&rsquo;, 0.0022638811791995807, &lsquo;mean_absolute_error&rsquo;, 0.036607046703997399, &lsquo;median_absolute_error&rsquo;, 0.028266085435894095)</p>
-<p>Split 3<br />
-(&lsquo;r2 score:&rsquo;, 0.90054123332737157, &lsquo;explained variance score:&rsquo;, 0.90377986316285341, &lsquo;mean_squared_error&rsquo;, 0.0027188916770536373, &lsquo;mean_absolute_error&rsquo;, 0.038394690588562007, &lsquo;median_absolute_error&rsquo;, 0.026809489549802112)</p>
+<table>
+<thead>
+<tr>
+<th>Regressors</th>
+<th>Split #</th>
+<th>R2 Score</th>
+<th>Explained Variance Score</th>
+<th>Mean Squared Error</th>
+<th>Mean Absolute Error</th>
+<th>Median Absolute Error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linear Regression</td>
+<td>Split 1</td>
+<td>0.89664579541310629</td>
+<td>0.89691708583413254</td>
+<td>0.0061842954759759924</td>
+<td>0.051265662455921866</td>
+<td>0.037261406664000601</td>
+</tr>
+<tr>
+<td>Linear Regression</td>
+<td>Split 2</td>
+<td>0.89986981562675339</td>
+<td>0.90286244646868152</td>
+<td>0.0022638811791995807</td>
+<td>0.036607046703997399</td>
+<td>0.028266085435894095</td>
+</tr>
+<tr>
+<td>Linear Regression</td>
+<td>Split 3</td>
+<td>0.90054123332737157</td>
+<td>0.90377986316285341</td>
+<td>0.0027188916770536373</td>
+<td>0.038394690588562007</td>
+<td>0.026809489549802112</td>
+</tr>
+</tbody>
+</table>
 <h3 id="justification"><a name="user-content-justification" href="#justification" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Justification</h3>
-<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. <br />
-The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions. This also shows the model seems not to be overfitting it has similar score over back-testing (Split 1, 2, and 3)<br />
-Also the result could be justified as linear regressions are historically working well in economics and finance field. This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
+<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. The result is reasonable as the scores for linear regression were stable through Split 1, 2, and 3. r2 score, mean absolute error, and mean squared error, as well as explained variance score and median absolute error were reasonably stable compared to other regressions. This also shows the model seems not to be overfitting it has similar score over back-testing (Split 1, 2, and 3). Also the result could be justified as linear regressions are historically working well in economics and finance field. This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
 <h2 id="v-conclusion"><a name="user-content-v-conclusion" href="#v-conclusion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>V. Conclusion</h2>
 <h3 id="free-form-visualization"><a name="user-content-free-form-visualization" href="#free-form-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Free-Form Visualization</h3>
 <p>Figure 3: % change in each factor (24 month % change for &lsquo;price 24m change&rsquo;. 12 months % change for other factors)<br />
