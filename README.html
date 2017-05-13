@@ -1014,16 +1014,16 @@ body .markdown-body
     page-break-after: avoid;
   }
 }
-</style><title>README</title></head><body><article class="markdown-body"><h1 id="machine-learning-engineer-nanodegree"><a name="user-content-machine-learning-engineer-nanodegree" href="#machine-learning-engineer-nanodegree" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Machine Learning Engineer Nanodegree</h1>
+</style><title>README</title></head><body><article class="markdown-body"><h1 id="machine-learning-engineer-nano-degree"><a name="user-content-machine-learning-engineer-nano-degree" href="#machine-learning-engineer-nano-degree" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Machine Learning Engineer Nano degree</h1>
 <h2 id="capstone-project"><a name="user-content-capstone-project" href="#capstone-project" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Capstone Project</h2>
 <p>Yudai Furukawa<br />
 May 7th, 2017</p>
 <h2 id="i-definition"><a name="user-content-i-definition" href="#i-definition" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>I. Definition</h2>
 <h3 id="project-overview"><a name="user-content-project-overview" href="#project-overview" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Project Overview</h3>
 <p>This project is about stock investing, and I am focusing on price prediction of a stock market index. A stock index is an aggregate value produced by combining several stocks, and it helps investors to measure and compare values of the stock markets such as in the US and Japan.<br />
-The Dow Jones Industrial Average (DJIA), Nasdaq Composite index and the S&amp;P Composite are examples of stock indices.<br />
+The Dow Jones Industrial Average (DJIA), NASDAQ Composite index and the S&amp;P Composite are examples of stock index.<br />
 As a wealth of information such as price, earnings, dividends, and CPI are available, I am going to use those information to do the prediction.<br />
-A dataset of S&amp;P Composite published by Yale Department of Economics will be used in this project. For more infomation, please refer the link below:<br />
+A dataset of S&amp;P Composite published by Yale Department of Economics will be used in this project. For more information, please refer the link below:<br />
 <a href="https://www.quandl.com/data/YALE-Yale-Department-of-Economics">https://www.quandl.com/data/YALE-Yale-Department-of-Economics</a></p>
 <h3 id="problem-statement"><a name="user-content-problem-statement" href="#problem-statement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Problem Statement</h3>
 <p>For this project, the task is to build a stock index price predictor. A 12 month forward price change of S&amp;P composite will be predicted by using regression. The project is going to be a supervised learning.</p>
@@ -1037,8 +1037,8 @@ A dataset of S&amp;P Composite published by Yale Department of Economics will be
 <h2 id="ii-analysis"><a name="user-content-ii-analysis" href="#ii-analysis" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>II. Analysis</h2>
 <h3 id="data-exploration"><a name="user-content-data-exploration" href="#data-exploration" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data Exploration</h3>
 <p>A dataset of S&amp;P Composite published by Yale Department of Economics will be used in this project. <br />
-The dataset (named snp in this project) is monthly time series of S&amp;P Composite Price, Dividend, Earnigns, CPI, Long Interest Rate, Real S&amp;P Composite Price, Real Dicidend, Real Earnings, and Cyclically Adjusted PE Ration since 1831-1-31 up to date.</p>
-<p>For more infomation, please refer the link below:<br />
+The dataset (named snp in this project) is monthly time series of S&amp;P Composite Price, Dividend, Earnings, CPI, Long Interest Rate, Real S&amp;P Composite Price, Real Dividend, Real Earnings, and Cyclically Adjusted PE Ration since 1831-1-31 up to date.</p>
+<p>For more information, please refer the link below:<br />
 <a href="https://www.quandl.com/data/YALE-Yale-Department-of-Economics">https://www.quandl.com/data/YALE-Yale-Department-of-Economics</a></p>
 <p>As of 2017-04-08, the basic statistics of snp the dataset is following.</p>
 <table>
@@ -1155,14 +1155,14 @@ The dataset (named snp in this project) is monthly time series of S&amp;P Compos
 </tr>
 </tbody>
 </table>
-<p>As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclicall Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.</p>
+<p>As you can see some of the cells are filled by NaN as some data are missing in the dataset. Also, because when dealing with economical data, inflation has to be carefully taken into account as CPI tends to grow overtime and values of price and earnings tend to have smaller values in the past. Therefore, only real values, Long Interest Rate, and Cyclically Adjusted PE Ratio in the previous table can be taken seriously in statistical analysis without any modification.</p>
 <h3 id="exploratory-visualization"><a name="user-content-exploratory-visualization" href="#exploratory-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Exploratory Visualization</h3>
 <p>Figure 1: Time Series for all factors<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/snp_figure1.png?raw=true" /><br />
 Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo;<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/snp_figure2.png?raw=true" /></p>
 <p>Figure 1 is a time series plot of the raw dataset. Figure 2 is also time series plot omitting &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; in order to visualize other features clearly. Time series plot was chosen as the data itself is a time series. For the both figures, the horizontal axis displays years and the vertical axis displays figures for each feature where the unit is different for each feature.</p>
-<p>In figure 1, you can clearly see both &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; have been increasing in general as time goes. Therefore, it would be better nomarizing data when doing analysis. Also, in figure 2, you can see the same trends besides for &ldquo;Cyclically adjusted PE Ratio&rdquo; and &ldquo;Long Interest Rate&rdquo;. Therefore, for the same reasons, it would be better nomarizing data when doing analysis besides those two features.</p>
+<p>In figure 1, you can clearly see both &ldquo;Real Price&rdquo; and &ldquo;S&amp;P Composite&rdquo; have been increasing in general as time goes. Therefore, it would be better normalizing data when doing analysis. Also, in figure 2, you can see the same trends besides for &ldquo;Cyclically adjusted PE Ratio&rdquo; and &ldquo;Long Interest Rate&rdquo;. Therefore, for the same reasons, it would be better normalizing data when doing analysis besides those two features.</p>
 <h3 id="algorithms-and-techniques"><a name="user-content-algorithms-and-techniques" href="#algorithms-and-techniques" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Algorithms and Techniques</h3>
 <p>In this project, following regressions will be used in predicting the 12 month forward price change in S&amp;P Composite.</p>
 <ol>
@@ -1170,16 +1170,16 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <li>KNeibors</li>
 <li>SVR</li>
 </ol>
-<p>I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independency should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to overfit. </p>
+<p>I chose the linear regression as it is the most commonly used regression in the financial industry. However, the weakness of the linear regression such as sensitivity to outliers and assumption of data independence should be carefully treated. I chose KNeibors as it is robust to noisy training data and the dataset is noisy as a lot of other features that might affect the price are missing. I chose SVR as it can do both linear and non-linear regressions and it is less likely to over fit. </p>
 <h3 id="benchmark"><a name="user-content-benchmark" href="#benchmark" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Benchmark</h3>
 <p>r2 score of 0.5 will be used as a benchmark. 0.5 is a reasonable benchmark as equity return is often said unpredictable</p>
 <h2 id="iii-methodology"><a name="user-content-iii-methodology" href="#iii-methodology" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>III. Methodology</h2>
 <h3 id="data-preprocessing"><a name="user-content-data-preprocessing" href="#data-preprocessing" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Data Preprocessing</h3>
-<p>As discussed, the original dataset needs to be nomalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). I first removed the columns for real values as this project aims to predict change of nominal S&amp;P Composite price change and CPI in the dataset can be used to calculate the real value when needed. After this procedure, instead of using raw dataset, 12 months changes for each feature and the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo; will be used. The target feature will be 12 month forward changes in S&amp;P Composite price.</p>
+<p>As discussed, the original dataset needs to be normalized in order to predict % change of S&amp;P Composite price with a return horizon of 1 year (named snp_changes). I first removed the columns for real values as this project aims to predict change of nominal S&amp;P Composite price change and CPI in the dataset can be used to calculate the real value when needed. After this procedure, instead of using raw dataset, 12 months changes for each feature and the original figures of &ldquo;Cyclically adjusted PE Ration&rdquo; and &ldquo;Long Interest Rate&rdquo; will be used. The target feature will be 12 month forward changes in S&amp;P Composite price.</p>
 <p>The following modifications were made on the dataset. </p>
 <ol>
 <li>Removed features with real values as the project is focusing on predicting % change of nominal S&amp;P Composite price.</li>
-<li>Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 yeare S&amp;P Composite price and other features.</li>
+<li>Generated a dataset called snp_changes which shows 1 year change of each feature in order to see the relationship of changes of 1 year S&amp;P Composite price and other features.</li>
 <li>Added a target feature &ldquo;y&rdquo; which is 12 months forward return of S&amp;P Composite.</li>
 <li>Added following features that seem to be have an effect on the prediction.<ul>
 <li>The real value of PE Ratio as the ratio is considered as a good indicator on predicting return in general. </li>
@@ -1202,13 +1202,13 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 <li>KNeibors: 0.76730206091093156</li>
 <li>SVR: 0.85812976342580705 </li>
 </ol>
-<p>As linear regression has the highest r2 score, I concluded linear regression best serves the purpose of this project. After using grid search on linear regression algorithm, the r2 score changed to 0.91077659608990336 which is almost the same to the score with default settings. Parameters after grid seach are followings {&lsquo;copy_X&rsquo;: True, &lsquo;normalize&rsquo;: True, &lsquo;fit_intercept&rsquo;: True} which shows the parameter &lsquo;normalize&rsquo; changed from False to True. It is reasonable that the linear regression is the best estimator as this is the most commonly used model in finance. The prediction for some samples also shows that the model is working well.</p>
+<p>As linear regression has the highest r2 score, I concluded linear regression best serves the purpose of this project. After using grid search on linear regression algorithm, the r2 score changed to 0.91077659608990336 which is almost the same to the score with default settings. Parameters after grid search are followings {&lsquo;copy_X&rsquo;: True, &lsquo;normalize&rsquo;: True, &lsquo;fit_intercept&rsquo;: True} which shows the parameter &lsquo;normalize&rsquo; changed from False to True. It is reasonable that the linear regression is the best estimator as this is the most commonly used model in finance. The prediction for some samples also shows that the model is working well.</p>
 <p>Comparison of Samples&rsquo; y and Predicted y</p>
 <table>
 <thead>
 <tr>
 <th>Index</th>
-<th>Acctual y</th>
+<th>Actual y</th>
 <th>Predicted y</th>
 </tr>
 </thead>
@@ -1231,19 +1231,19 @@ Figure 2: Time Series for Factors Except &ldquo;Real Price&rdquo; and &ldquo;S&a
 </tbody>
 </table>
 <h3 id="justification"><a name="user-content-justification" href="#justification" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Justification</h3>
-<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. The result is reasonable as linear regresison is historically working well in economics.This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
+<p>r2 score of 0.91 with the selected linear regression is definitely higher than benchmark which is r2 score of 0.5. The result is reasonable as linear regression is historically working well in economics.This result is significant as the project shows existing factors can be good predictors of the future S&amp;P Composite return although it is often said that the it is nearly impossible to predict the future return of S&amp;P Composite. </p>
 <h2 id="v-conclusion"><a name="user-content-v-conclusion" href="#v-conclusion" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>V. Conclusion</h2>
 <h3 id="free-form-visualization"><a name="user-content-free-form-visualization" href="#free-form-visualization" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Free-Form Visualization</h3>
 <p>Figure 3: % change in each factor (24 month % change for &lsquo;price 24m change&rsquo;. 12 months % change for other factors)<br />
 <img alt="alt text" src="https://github.com/YudaiFurukawa/Investment-and-Trading/blob/master/shapes/freeform1.png?raw=true" /></p>
-<p>This graph is a box plot of the dataset. As you can see mean values of all the features are abobe 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&amp;P Composite. </p>
+<p>This graph is a box plot of the dataset. As you can see mean values of all the features are above 0. Especially as the mean value of y is above 0, you can make money on average when you invest in S&amp;P Composite. </p>
 <p>In this section, you will need to provide some form of visualization that emphasizes an important quality about the project. It is much more free-form, but should reasonably support a significant result or characteristic about the problem that you want to discuss. Questions to ask yourself when writing this section:<br />
 - <em>Have you visualized a relevant or important quality about the problem, dataset, input data, or results?</em><br />
 - <em>Is the visualization thoroughly analyzed and discussed?</em><br />
 - <em>If a plot is provided, are the axes, title, and datum clearly defined?</em></p>
 <h3 id="reflection"><a name="user-content-reflection" href="#reflection" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Reflection</h3>
 <p>I started with definition the goal, searching datasets I can use, analyzing the characteristics of the dataset, and processing the data in order to have it ready for regression. After having the data ready, I decided how to measure the result, chose regressions that would be useful with taking strength and weakness for each regression in mind, and figured out which regression will best serve the purpose.</p>
-<p>I found it interesting that I could define the problem as any of supurvised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.</p>
+<p>I found it interesting that I could define the problem as any of supervised, unsupervised, and reinforcement learning although the data being used is the same. I found it difficult to find data that I need for the project as most of datasets are not free.</p>
 <p>The final result fit my expectations for the problem as the linear regression is the most commonly used regression in the financial industry, and I think </p>
 <h3 id="improvement"><a name="user-content-improvement" href="#improvement" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Improvement</h3>
-<p>I think I could have more factors such as fandamental data (book value, working capital etc.) and economic data (GDP, NFP, etc.) in the dataset in order to make a better stock price predictor. With more factors in the dataset, I expect to have a better regression with higher r2 score.</p></article></body></html>
+<p>I think I could have more factors such as fundamental data (book value, working capital etc.) and economic data (GDP, NFP, etc.) in the dataset in order to make a better stock price predictor. With more factors in the dataset, I expect to have a better regression with higher r2 score.</p></article></body></html>

@@ -15,6 +15,7 @@ from sklearn.svm import SVR #for regression
 from sklearn import grid_search, linear_model
 from sklearn.neighbors import KNeighborsRegressor
 
+
 #
 from sklearn import tree
 from sklearn.metrics import r2_score
@@ -92,7 +93,7 @@ snp_changes['price 24m change']=(snp['S&P Composite']/snp['S&P Composite'].shift
 ###drop "S&P Composite"
 delcol(snp_changes,['CPI','Long Interest Rate'])
 snp_changes_testing = snp_changes[12:] #for testing in the end
-snp_changes = snp_changes[12:].dropna().reset_index(drop = True) #deleting first 12 rows as PE change doesn't have value
+snp_changes = snp_changes[12:].dropna(axis = 0).reset_index(drop = True) #deleting first 12 rows as PE change doesn't have value
 
 
 ###rename columns
@@ -130,9 +131,10 @@ print('earnings>2',snp_changes[snp_changes['Earnings']>2].index.tolist())
 # print(snp_changes.ix[outliers_indices])
 
 ###drop outliers
-good_data = snp_changes.drop(snp_changes.index[outliers_indices])
-# print(good_data)
+good_data = snp_changes.drop(snp_changes.index[outliers_indices]).reset_index(drop = True)
 
+#export as csv to examine
+# np.savetxt("file_name.csv", good_data, delimiter=",", fmt='%s')
 ###plot
 good_data_timeSeries = good_data.drop(["PE Ratio (value)"], axis = 1)
 good_data_timeSeries.plot()
@@ -195,11 +197,47 @@ def r2(key,data, regressor):
 	y_pred = regressor.predict(X_test.values)
 	score = r2_score(y_test, y_pred)
 	print("r2 score", score)
-r2('y',good_data,estimator)
+# r2('y',good_data,estimator)
 
-print(estimator.best_params_, estimator.best_estimator_)
+def split(X, n_splits, groups=None):
+    # X, y, groups = indexable(X, y, groups)
+    n_samples = len(X)
+    n_folds = n_splits + 1
+    if n_folds > n_samples:
+        raise ValueError(
+            ("Cannot have number of folds ={0} greater"
+             " than the number of samples: {1}.").format(n_folds,n_samples))
+    indices = np.arange(n_samples)
+    test_size = (n_samples // n_folds)
+    test_starts = range(test_size + n_samples % n_folds,
+                        n_samples, test_size)
+    for test_start in test_starts:
+        yield (indices[:test_start],
+			indices[test_start:test_start + test_size])
+
+new_data = good_data.drop('y', axis = 1)
+target = good_data['y']
+# print(good_data.ix[[605]])
+
+
+for train_index, test_index in split(new_data, n_splits = 3):
+	# print("TRAIN:", train_index, "TEST:", test_index)
+	new_data_train, new_data_test = new_data.ix[train_index], new_data.ix[test_index]
+	target_train, target_test = target.ix[train_index], target.ix[test_index]
+	# print(list(map(tuple, np.where(np.isnan(new_data_train)))))
+	# print(new_data_train.ix[[605]])
+	###any nan or infinite
+	# print(np.any(np.isnan(new_data_train)),np.all(np.isfinite(new_data_test)),
+	###
+	estimator.fit(new_data_train,target_train)
+	# print(new_data_test)
+	target_pred = estimator.predict(new_data_test.values)
+	score = r2_score(target_test, target_pred)
+	print("r2 score:",score)
+
+# print(estimator.best_params_, estimator.best_estimator_)
 # print(estimator.alpha_)
-print(estimator.best_estimator_.coef_, estimator.best_estimator_.residues_, estimator.best_estimator_.intercept_)
+# print(estimator.best_estimator_.coef_, estimator.best_estimator_.residues_, estimator.best_estimator_.intercept_)
 
 ###samples to see the result of prediction
 # print(good_data.ix[1624,'y'],estimator.predict(good_data.ix[1624,:].drop('y').values))
@@ -207,7 +245,15 @@ print(estimator.best_estimator_.coef_, estimator.best_estimator_.residues_, esti
 # print(good_data.ix[164,'y'],estimator.predict(good_data.ix[164,:].drop('y').values))
 # print(good_data.ix[333,'y'],estimator.predict(good_data.ix[333,:].drop('y').values))
 # print(good_data.ix[1000,'y'],estimator.predict(good_data.ix[1000,:].drop('y').values))
-print(estimator.predict(good_data.ix[333,:].drop('y').values))
+# print(estimator.predict(good_data.ix[333,:].drop('y').values))
 # print(estimator.predict(snp_changes_testing.ix['2016-09-30',:].drop('y').values))
 #plot
-plt.show()
+# plt.show()
+
+
+### Time Series split
+
+
+
+
+
